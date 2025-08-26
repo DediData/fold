@@ -1,0 +1,39 @@
+body,
+body.rtl,
+button,
+input,
+select,
+textarea,
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+keygen,
+blockquote cite,
+blockquote small,
+table th,
+table caption,
+table td,
+pre {
+	font-family: sahel, shabnam, yekan, tahoma, verdana, arial, helvetica, sans-serif;
+}
+
+#tinymce,
+.mce-ico,
+.mejs-container .mejs-controls div,
+.mejs-controls .mejs-captions-button .mejs-captions-selector ul li label,
+.mejs-contextmenu .mejs-contextmenu-item,
+.mejs-controls .mejs-sourcechooser-button .mejs-sourcechooser-selector ul li label,
+.mejs-controls .mejs-speed-button .mejs-speed-selector ul li label,
+.mce-window .wp-editor-help kbd,
+.mce-item-table td,
+.mce-item-table th,
+.rtl .quicktags-toolbar input,
+.wp-caption,
+.gallery .gallery-caption {
+	font-family: sahel, shabnam, yekan, tahoma, verdana, arial, helvetica, sans-serif !important;
+}
+
+.justify {
+	text-align: justify;
+}

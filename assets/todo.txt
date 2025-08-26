@@ -1,0 +1,1 @@
+- Change FontAwesome display:block to display:swap

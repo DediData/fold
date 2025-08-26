@@ -1,0 +1,28 @@
+@font-face {
+	/* Sahel-VF */
+	font-family: 'sahel';
+	src:	url('sahel.eot'); /* IE9 Compat Modes */
+	src:	url('sahel.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+			url('sahel.woff2') format('woff2'), /* Modern Browsers */
+			url('sahel.woff') format('woff'), /* Modern Browsers */
+			/* url('sahel.otf') format('opentype'), /* Open Type Font */
+			url('sahel.ttf') format('truetype'); /* Safari, Android, iOS */
+	font-style: normal;
+	text-rendering: optimizeLegibility;
+	font-display: swap;
+	font-variation-settings: "wght" 500;
+}
+
+@font-face {
+	/* Shabnam-Bold */
+	font-family: 'shabnam';
+	src:	url('shabnam.eot'); /* IE9 Compat Modes */
+	src:	url('shabnam.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+			url('shabnam.woff2') format('woff2'), /* Modern Browsers */
+			url('shabnam.woff') format('woff'), /* Modern Browsers */
+			/* url('shabnam.otf') format('opentype'), /* Open Type Font */
+			url('shabnam.ttf') format('truetype'); /* Safari, Android, iOS */
+	font-style: normal;
+	text-rendering: optimizeLegibility;
+	font-display: swap;
+}

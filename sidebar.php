@@ -3,7 +3,7 @@
  * The sidebar for our theme
  *
  * This is the template that displays sidebar section
- * 
+ *
  * @package Fold
  * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  */

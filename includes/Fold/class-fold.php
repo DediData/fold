@@ -50,7 +50,6 @@ final class Fold extends \DediData\Singleton {
 		}
 	}
 
-
 	/**
 	 * Sets up theme defaults and registers support for various WordPress features.
 	 *
@@ -421,7 +420,16 @@ final class Fold extends \DediData\Singleton {
 	public function enqueue_all(): void {
 
 		// bootstrap js css load in footer
-		wp_enqueue_script( 'bootstrap', get_stylesheet_directory_uri() . '/assets/bootstrap/js/bootstrap.bundle.min.js', array( 'jquery' ), '5.3.3', array( 'strategy' => 'defer', 'in_footer' => true ) );
+		wp_enqueue_script(
+			'bootstrap',
+			get_stylesheet_directory_uri() . '/assets/bootstrap/js/bootstrap.bundle.min.js',
+			array( 'jquery' ),
+			'5.3.3',
+			array(
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			)
+		);
 
 		// bootstrap theme css
 		$mod_bs_theme_name = get_theme_mod( 'bootstrap_theme_name' );
@@ -475,7 +483,16 @@ final class Fold extends \DediData\Singleton {
 		// LightBox2
 		wp_enqueue_style( 'lightbox2', get_stylesheet_directory_uri() . '/assets/lightbox2/css/lightbox.min.css', array(), '2.11.3', 'all' );
 		// load in footer
-		wp_enqueue_script( 'lightbox2', get_stylesheet_directory_uri() . '/assets/lightbox2/js/lightbox.min.js', array( 'jquery' ), '2.11.3', array( 'strategy' => 'defer', 'in_footer' => true ) );
+		wp_enqueue_script(
+			'lightbox2',
+			get_stylesheet_directory_uri() . '/assets/lightbox2/js/lightbox.min.js',
+			array( 'jquery' ),
+			'2.11.3',
+			array(
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			)
+		);
 
 		// Font Awesome CSS
 		wp_enqueue_style( 'font-awesome', get_stylesheet_directory_uri() . '/assets/font-awesome/css/all.min.css', array(), '7.0.0', 'all' );
@@ -1164,7 +1181,7 @@ final class Fold extends \DediData\Singleton {
 			<?php
 		} elseif ( ! is_archive() && ! is_tag() ) {
 			?>
-			<h1 class="page-title"><?php esc_html_e( trim( get_the_title() ) ); ?></h1>
+			<h1 class="page-title"><?php echo esc_html( trim( get_the_title() ) ); ?></h1>
 			<?php
 		}
 	}

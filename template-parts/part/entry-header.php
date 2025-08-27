@@ -28,7 +28,7 @@ declare(strict_types=1);
 			?>
 		</div>
 			<?php
-		}
-		?>
+	}
+	?>
 	</div>
 </header>

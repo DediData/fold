@@ -22,13 +22,13 @@ if ( is_singular() ) {
 			// 'aria_current'     =>
 			// Indicates whether page numbers should be used. Valid values are number and next. Default is 'number'.
 			'next_or_number' => 'number',
-			// Text between pagination links. Default is ‘ ‘.
+			// Text between pagination links. Default is ï¿½ ï¿½.
 			// 'separator'        =>
-			// Link text for the next page link, if available. Default is ‘Next Page’.
+			// Link text for the next page link, if available. Default is ï¿½Next Pageï¿½.
 			// 'nextpagelink'     => esc_html__( 'Next', 'fold' ),
-			// Link text for the previous page link, if available. Default is ‘Previous Page’.
+			// Link text for the previous page link, if available. Default is ï¿½Previous Pageï¿½.
 			// 'previouspagelink' => esc_html__( 'Previous', 'fold' ),
-			// Format string for page numbers. The % in the parameter string will be replaced with the page number, so ‘Page %’ generates "Page 1", "Page 2", etc.
+			// Format string for page numbers. The % in the parameter string will be replaced with the page number, so ï¿½Page %ï¿½ generates "Page 1", "Page 2", etc.
 			// Defaults to '%', just the page number.
 			// 'pagelink'         => '%',
 			// Whether to echo or not. Accepts 1|true or 0|false. Default 1|true.
@@ -36,4 +36,4 @@ if ( is_singular() ) {
 
 		)
 	);
-}
+}//end if

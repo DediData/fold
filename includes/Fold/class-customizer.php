@@ -682,7 +682,10 @@ final class Customizer {
 			// Define a version (optional)
 			$theme_version,
 			// Specify whether to put in footer (leave this true)
-			array( 'strategy' => 'defer', 'in_footer' => true )
+			array(
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			)
 		);
 	}
 }

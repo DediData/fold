@@ -81,7 +81,7 @@ jQuery( document ).ready(
 			}
 		}
 
-/*
+		/*
 		if ( ! isTouchDevice ) {
 
 			// open top menu item on focus in
@@ -118,7 +118,7 @@ jQuery( document ).ready(
 			}
 		);
 
-*/
+		*/
 
 		let dropDownT = $( '.dropDownT' );
 		/* Double-click on root items links on Touch devices, and Click on non touch devices to open link */

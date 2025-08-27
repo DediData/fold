@@ -1,7 +1,7 @@
 <?php
 /**
  * Function file of theme
- * 
+ *
  * @package Fold
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  */
@@ -19,7 +19,7 @@ if ( ! class_exists( '\DediData\Theme_Autoloader' ) ) {
 new \DediData\Theme_Autoloader( array( 'DediData', 'Fold' ) );
 /**
  * The function FOLD returns an instance of the Fold class.
- * 
+ *
  * @return \Fold\Fold as an instance of return
  * @SuppressWarnings(PHPMD.StaticAccess)
  */
@@ -27,4 +27,3 @@ function FOLD(): \Fold\Fold { // phpcs:ignore Squiz.Functions.GlobalFunction.Fou
 	return \Fold\Fold::get_instance( __FILE__ );
 }
 FOLD();
-

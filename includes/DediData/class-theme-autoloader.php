@@ -1,7 +1,7 @@
 <?php
 /**
  * DediData Theme Autoloader
- * 
+ *
  * @package DediData
  */
 
@@ -19,28 +19,28 @@ final class Theme_Autoloader {
 
 	/**
 	 * Name Spaces
-	 * 
+	 *
 	 * @var array<string> $name_spaces
 	 */
 	protected $name_spaces;
 
 	/**
 	 * Theme File
-	 * 
+	 *
 	 * @var string $theme_file
 	 */
 	protected $theme_file;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param array<string> $name_spaces Name Spaces.
 	 * @return void
 	 */
 	public function __construct( array $name_spaces ) {
 		$this->name_spaces = $name_spaces;
-		// phpcs:ignore SlevomatCodingStandard.ControlStructures.NewWithoutParentheses.UselessParentheses
-		$trace = ( new Exception() )->getTrace();
+		$exception_ins     = new Exception();
+		$trace             = $exception_ins->getTrace();
 		if ( ! isset( $trace[0]['file'] ) ) {
 			new WP_Error( 'Invalid Trace for Autoload' );
 		}
@@ -51,7 +51,7 @@ final class Theme_Autoloader {
 	/**
 	 * The autoloader function checks if a class is part of a specific theme and includes the
 	 * corresponding class file if it exists.
-	 * 
+	 *
 	 * @param string $class_name The class parameter is the name of the class that needs to be auto loaded.
 	 * @return void Return
 	 */

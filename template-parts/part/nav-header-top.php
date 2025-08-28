@@ -8,7 +8,7 @@
 declare(strict_types=1);
 
 $theme_mod_display_login_link = get_theme_mod( 'display_login_link' );
-if ( has_nav_menu( 'primary' ) || isset( $theme_mod_display_login_link ) || is_customize_preview() ) { ?>
+if ( has_nav_menu( 'primary' ) || true === $theme_mod_display_login_link || is_customize_preview() ) { ?>
 	<nav id="top-menu" class="mega-menu navbar navbar-expand-md shadow container rounded-bottom z-10000 fixed-top transition" style="top: auto;">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="container-fluid">
@@ -34,7 +34,7 @@ if ( has_nav_menu( 'primary' ) || isset( $theme_mod_display_login_link ) || is_c
 				?>
 				<ul id="top-menu-side" class="navbar-nav ms-auto">
 					<?php
-					if ( isset( $theme_mod_display_login_link ) ) {
+					if ( true === $theme_mod_display_login_link ) {
 						$login_link_texts                = FOLD()::login_link_texts();
 						$theme_mod_login_link_text       = get_theme_mod( 'login_link_text' );
 						$theme_mod_login_link_text       = is_string( $theme_mod_login_link_text ) ? $theme_mod_login_link_text : '';

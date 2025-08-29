@@ -24,7 +24,7 @@ final class Walker_Bootstrap_Nav_Widget extends \Walker_Nav_Menu {
 	 * @return void
 	 * @SuppressWarnings(PHPMD.ElseExpression)
 	 */
-	public function start_lvl( &$output, $depth = 0, $args = null ) {
+	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		if ( 0 === $depth ) {
 			// main sub menus
 			$output .= '<ul role="menu" class="dropdown-menu shadow p-1">';
@@ -44,12 +44,8 @@ final class Walker_Bootstrap_Nav_Widget extends \Walker_Nav_Menu {
 	 * @return void
 	 * @SuppressWarnings(PHPMD.ElseExpression)
 	 */
-	public function end_lvl( &$output, $depth = 0, $args = null ) {
-		if ( 0 === $depth ) {
-			$output .= '</ul>';
-		} else {
-			$output .= '</ul>';
-		}
+	public function end_lvl( &$output, $depth = 0, $args = array() ) {
+		$output .= '</ul>';
 	}
 
 	/**
@@ -64,11 +60,8 @@ final class Walker_Bootstrap_Nav_Widget extends \Walker_Nav_Menu {
 	 * @return void
 	 * @SuppressWarnings(PHPMD.ElseExpression)
 	 */
-	public function start_el( &$output, $data_object, $depth = 0, $args = null, $current_object_id = 0 ) {
-		if ( ! isset( $args ) ) {
-			$args = array();
-		}
-		$classes   = ! isset( $data_object->classes ) ? array() : (array) $data_object->classes;
+	public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0 ) {
+		$classes   = is_array( $data_object->classes ) ? $data_object->classes : array();
 		$classes[] = 'menu-item-' . (string) $data_object->ID;
 		$classes[] = 'list-unstyled';
 		$classes[] = 'nav-item';
@@ -146,33 +139,33 @@ final class Walker_Bootstrap_Nav_Widget extends \Walker_Nav_Menu {
 		* comparison that is not case sensitive. The strcasecmp() function returns
 		* a 0 if the strings are equal.
 		*/
-		if ( 0 === strcasecmp( $data_object->attr_title, 'divider' ) && 1 < $depth ) {
+		if ( 0 === strcasecmp( (string) $data_object->attr_title, 'divider' ) && 1 < $depth ) {
 			$output .= '<li role="presentation" class="divider">';
-		} elseif ( 0 === strcasecmp( $data_object->title, 'divider' ) && 1 < $depth ) {
+		} elseif ( 0 === strcasecmp( (string) $data_object->title, 'divider' ) && 1 < $depth ) {
 			$output .= '<li role="presentation" class="divider">';
-		} elseif ( 0 === strcasecmp( $data_object->attr_title, 'dropdown-header' ) && 1 === $depth ) {
-			$output .= '<li role="presentation" class="dropdown-header">' . esc_html( $data_object->title );
-		} elseif ( 0 === strcasecmp( $data_object->attr_title, 'disabled' ) ) {
-			$output .= '<li role="presentation" class="disabled"><a href="#" class="navbar-link">' . esc_html( $data_object->title ) . '</a>';
+		} elseif ( 0 === strcasecmp( (string) $data_object->attr_title, 'dropdown-header' ) && 1 === $depth ) {
+			$output .= '<li role="presentation" class="dropdown-header">' . esc_html( (string) $data_object->title );
+		} elseif ( 0 === strcasecmp( (string) $data_object->attr_title, 'disabled' ) ) {
+			$output .= '<li role="presentation" class="disabled"><a href="#" class="navbar-link">' . esc_html( (string) $data_object->title ) . '</a>';
 		} else {
 			$output .= '<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement"' . $current_object_id . $class_names . '>';
 
 			$atts           = array();
-			$atts['title']  = $data_object->attr_title ?? '';
-			$atts['target'] = $data_object->target ?? '';
-			$atts['rel']    = $data_object->xfn ?? '';
+			$atts['title']  = (string) $data_object->attr_title;
+			$atts['target'] = (string) $data_object->target;
+			$atts['rel']    = (string) $data_object->xfn;
 			$atts['class']  = 'shadow-sm rounded mb-1';
 			// If item has_children add atts to a.
 			if ( $args->has_children && 0 === $depth ) {
 				// $atts['href']          = '#';
-				$atts['href']          = $data_object->url ?? '';
+				$atts['href']          = (string) $data_object->url;
 				$atts['class']        .= ' dropDownT nav-link';
 				$atts['data-toggle']   = 'dropdown';
 				$atts['aria-haspopup'] = 'true';
 				$atts['aria-expanded'] = 'false';
 				$atts['role']          = 'button';
 			} else {
-				$atts['href']  = $data_object->url ?? '';
+				$atts['href'] = (string) $data_object->url;
 				$atts['class'] = 'nav-link';
 				if ( 0 < $depth ) {
 					$atts['class'] .= ' submenu-link mb-1 p-2';
@@ -203,7 +196,7 @@ final class Walker_Bootstrap_Nav_Widget extends \Walker_Nav_Menu {
 
 			$attributes = '';
 			foreach ( $atts as $attr => $value ) {
-				if ( ! isset( $value ) ) {
+				if ( '' === $value ) {
 					continue;
 				}
 				$value       = 'href' === $attr ? esc_url( $value ) : esc_attr( $value );
@@ -211,7 +204,7 @@ final class Walker_Bootstrap_Nav_Widget extends \Walker_Nav_Menu {
 			}
 
 			/** This filter is documented in wp-includes/post-template.php */
-			$title = apply_filters( 'the_title', $data_object->title, $data_object->ID );
+			$title = apply_filters( 'the_title', (string) $data_object->title, (int) $data_object->ID );
 
 			/**
 			 * Filters a menu item's title.
@@ -232,7 +225,7 @@ final class Walker_Bootstrap_Nav_Widget extends \Walker_Nav_Menu {
 				* if there is a value in the attr_title property. If the attr_title
 				* property is NOT null we apply it as the class name for the glyphicon.
 				*/
-			if ( isset( $data_object->classes ) ) {
+			if ( is_array( $data_object->classes ) ) {
 				$obj_class_fa_found = false;
 				foreach ( $data_object->classes as $key => $value ) {
 					if ( is_string( $value ) && 0 === strpos( $value, 'fa-' ) ) {
@@ -264,7 +257,7 @@ final class Walker_Bootstrap_Nav_Widget extends \Walker_Nav_Menu {
 				$item_output .= '<a' . $attributes . '>';
 			}//end if
 
-			$description_span = $data_object->description && 0 < $depth ? '<span class="menu-item-description">' . $data_object->description . '</span>' : '';
+			$description_span = (string) $data_object->description && 0 < $depth ? '<span class="menu-item-description">' . (string) $data_object->description . '</span>' : '';
 			$arrow_icon       = '';
 			if ( 1 === $depth && $args->has_children ) {
 				$arrow_icon = ' <i class="fas fa-2xs fa-angle-double-down" aria-hidden="true"></i>';

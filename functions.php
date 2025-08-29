@@ -23,7 +23,7 @@ new \DediData\Theme_Autoloader( array( 'DediData', 'Fold' ) );
  * @return \Fold\Fold as an instance of return
  * @SuppressWarnings(PHPMD.StaticAccess)
  */
-function FOLD(): \Fold\Fold { // phpcs:ignore Squiz.Functions.GlobalFunction.Found, WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function FOLD() { // phpcs:ignore Squiz.Functions.GlobalFunction.Found, WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	return \Fold\Fold::get_instance( __FILE__ );
 }
 FOLD();

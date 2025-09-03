@@ -129,7 +129,7 @@ final class Customizer {
 				'display_visits',
 				array(
 					// Default setting/value to save
-					'default'           => 'true',
+					'default'           => true,
 					// Is this an 'option' or a 'theme_mod'?
 					'type'              => 'theme_mod',
 					// Optional. Special permissions for accessing this setting.
@@ -212,7 +212,7 @@ final class Customizer {
 				// Theme features required to support the panel. Default is none.
 				'theme_supports'    => array(),
 				// Default value for the setting. Default is empty string.
-				'default'           => 'false',
+				'default'           => false,
 				// What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
 				'transport'         => 'refresh',
 				'sanitize_callback' => '\Fold\Customizer::sanitize_checkbox',

@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-$theme_mod_display_login_link = get_theme_mod( 'display_login_link' );
+$theme_mod_display_login_link = get_theme_mod( 'display_login_link', false );
 if ( has_nav_menu( 'primary' ) || true === $theme_mod_display_login_link || is_customize_preview() ) { ?>
 	<nav id="top-menu" class="mega-menu navbar navbar-expand-md shadow container rounded-bottom z-10000 fixed-top transition" style="top: auto;">
 		<!-- Brand and toggle get grouped for better mobile display -->
@@ -36,7 +36,7 @@ if ( has_nav_menu( 'primary' ) || true === $theme_mod_display_login_link || is_c
 					<?php
 					if ( true === $theme_mod_display_login_link ) {
 						$login_link_texts                = FOLD()::login_link_texts();
-						$theme_mod_login_link_text       = get_theme_mod( 'login_link_text' );
+						$theme_mod_login_link_text       = get_theme_mod( 'login_link_text', 'Login' );
 						$theme_mod_login_link_text       = is_string( $theme_mod_login_link_text ) ? $theme_mod_login_link_text : '';
 						$theme_mod_login_link_text_value = array_key_exists( $theme_mod_login_link_text, $login_link_texts ) ? $login_link_texts[ $theme_mod_login_link_text ] : '';
 						$theme_mod_login_link_text_value = is_string( $theme_mod_login_link_text_value ) ? $theme_mod_login_link_text_value : '';

@@ -7,12 +7,12 @@
 
 declare(strict_types=1);
 
-$theme_mod_display_login_link = get_theme_mod( 'display_login_link' );
+$theme_mod_display_login_link = get_theme_mod( 'display_login_link', false );
 if ( isset( $theme_mod_display_login_link ) ) {
 	$login_link_texts            = FOLD()::login_link_texts();
-	$login_link_text             = get_theme_mod( 'login_link_text' );
+	$login_link_text             = get_theme_mod( 'login_link_text', 'Login' );
 	$login_link_text             = is_string( $login_link_text ) ? $login_link_text : 'Login';
-	$theme_mod_login_form_system = get_theme_mod( 'login_form_system' );
+	$theme_mod_login_form_system = get_theme_mod( 'login_form_system', 'WordPress' );
 	$login_link_text_value       = array_key_exists( $login_link_text, $login_link_texts ) ? $login_link_texts[ $login_link_text ] : '';
 	$login_link_text_value       = is_string( $login_link_text_value ) ? $login_link_text_value : '';
 
@@ -111,7 +111,7 @@ if ( isset( $theme_mod_display_login_link ) ) {
 		</div>
 		<?php
 	} elseif ( 'WHMCS' === $theme_mod_login_form_system ) {
-		$theme_mod_whmcs_url = get_theme_mod( 'whmcs_url' );
+		$theme_mod_whmcs_url = get_theme_mod( 'whmcs_url', 'https://panel.dedidata.com' );
 		$theme_mod_whmcs_url = is_string( $theme_mod_whmcs_url ) ? $theme_mod_whmcs_url : '';
 		?>
 		<div class="main-box modal fade transition" style="top: 20%;" id="popup-login" role="dialog">

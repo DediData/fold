@@ -8,8 +8,13 @@
 declare(strict_types=1);
 
 $theme_mod_display_login_link = get_theme_mod( 'display_login_link', false );
-if ( has_nav_menu( 'primary' ) || true === $theme_mod_display_login_link || is_customize_preview() ) { ?>
-	<nav id="top-menu" class="mega-menu navbar navbar-expand-md shadow container rounded-bottom z-10000 fixed-top transition" style="top: auto;">
+if ( has_nav_menu( 'primary' ) || true === $theme_mod_display_login_link || is_customize_preview() ) {
+	$menu_mode = get_theme_mod( 'menu_mode', 'mega-menu' );
+	if ( false === in_array( $menu_mode, array( 'mega-menu', 'normal-menu' ), true ) ) {
+		$menu_mode = 'mega-menu';
+	}
+	?>
+	<nav id="top-menu" class="navbar navbar-expand-md shadow container rounded-bottom z-10000 fixed-top transition" style="top: auto;">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="container-fluid">
 			<a class="navbar-brand" href="<?php echo esc_url( home_url() ); ?>" title="<?php bloginfo( 'name' ); ?>"><i class="fas fa-home" aria-hidden="true"></i></a>
@@ -22,7 +27,7 @@ if ( has_nav_menu( 'primary' ) || true === $theme_mod_display_login_link || is_c
 					array(
 						'theme_location'  => 'primary',
 						'depth'           => 3,
-						'menu_class'      => 'navbar-nav mega-menu transition mx-2',
+						'menu_class'      => $menu_mode . ' navbar-nav transition mx-2',
 						'menu_id'         => '',
 						'container'       => '',
 						'container_class' => '',

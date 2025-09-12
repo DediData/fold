@@ -15,7 +15,7 @@ table th,
 table caption,
 table td,
 pre {
-	font-family: sahel, shabnam, yekan, tahoma, verdana, arial, helvetica, sans-serif;
+	font-family: vazirmatn, tahoma, verdana, arial, helvetica, sans-serif;
 }
 
 #tinymce,
@@ -31,7 +31,7 @@ pre {
 .rtl .quicktags-toolbar input,
 .wp-caption,
 .gallery .gallery-caption {
-	font-family: sahel, shabnam, yekan, tahoma, verdana, arial, helvetica, sans-serif !important;
+	font-family: vazirmatn, tahoma, verdana, arial, helvetica, sans-serif !important;
 }
 
 .justify {

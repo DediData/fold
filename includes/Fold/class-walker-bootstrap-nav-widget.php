@@ -27,7 +27,7 @@ final class Walker_Bootstrap_Nav_Widget extends \Walker_Nav_Menu {
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		if ( 0 === $depth ) {
 			// main sub menus
-			$output .= '<ul role="menu" class="dropdown-menu shadow p-1">';
+			$output .= '<ul role="menu" class="dropdown-menu shadow p-2">';
 		} else {
 			// sub menu columns
 			$output .= '<ul role="menu" class="inner-menu">';
@@ -69,7 +69,7 @@ final class Walker_Bootstrap_Nav_Widget extends \Walker_Nav_Menu {
 			$classes[] .= '';
 		}
 		if ( 1 === $depth ) {
-			$classes[] .= ' px-1 py-1';
+			$classes[] .= '';
 		}
 		if ( $depth > 1 ) {
 			$classes[] .= '';
@@ -165,8 +165,8 @@ final class Walker_Bootstrap_Nav_Widget extends \Walker_Nav_Menu {
 				$atts['aria-expanded'] = 'false';
 				$atts['role']          = 'button';
 			} else {
-				$atts['href'] = (string) $data_object->url;
-				$atts['class'] = 'nav-link';
+				$atts['href']   = (string) $data_object->url;
+				$atts['class'] .= 'nav-link';
 				if ( 0 < $depth ) {
 					$atts['class'] .= ' submenu-link mb-1 p-2';
 				}

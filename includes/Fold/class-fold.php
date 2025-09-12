@@ -286,6 +286,10 @@ final class Fold extends \DediData\Singleton {
 
 		add_theme_support( 'editor-styles' );
 		// This theme styles the visual editor to resemble the theme style, specifically font, colors, and column width.
+		$current_locale = get_locale();
+		if ( 'fa_IR' === $current_locale || 'fa_AF' === $current_locale ) {
+			add_editor_style( 'assets/fonts/persian-fonts.css' );
+		}
 		if ( is_rtl() ) {
 			add_editor_style( 'assets/css/editor-style-rtl.css' );
 		} elseif ( ! is_rtl() ) {
@@ -305,7 +309,7 @@ final class Fold extends \DediData\Singleton {
 				'name'          => esc_html__( 'Sidebar', 'fold' ),
 				'id'            => 'sidebar-1',
 				'description'   => esc_html__( 'Add widgets here to appear in your sidebar.', 'fold' ),
-				'before_widget' => '<div id="%1$s" class="widget %2$s shadow rounded mb-3">',
+				'before_widget' => '<div id="%1$s" class="widget %2$s">',
 				'after_widget'  => '</div>',
 				'before_title'  => '<h4 class="widget-title">',
 				'after_title'   => '</h4>',
@@ -419,12 +423,16 @@ final class Fold extends \DediData\Singleton {
 	 */
 	public function enqueue_all(): void {
 
+		$theme_version = wp_get_theme()->get( 'Version' );
+		/** @psalm-suppress RedundantConditionGivenDocblockType, DocblockTypeContradiction */
+		$theme_version = ! is_array( $theme_version ) ? $theme_version : '';
+
 		// bootstrap js css load in footer
 		wp_enqueue_script(
 			'bootstrap',
 			get_stylesheet_directory_uri() . '/assets/bootstrap/js/bootstrap.bundle.min.js',
 			array( 'jquery' ),
-			'5.3.3',
+			$theme_version,
 			array(
 				'strategy'  => 'defer',
 				'in_footer' => true,
@@ -467,27 +475,27 @@ final class Fold extends \DediData\Singleton {
 		$theme_mode = 'default' !== $mod_bs_theme_name;
 		if ( $theme_mode ) {
 			if ( ! is_rtl() ) {
-				wp_enqueue_style( 'bootswatch', get_stylesheet_directory_uri() . '/assets/bootswatch/' . esc_html( $mod_bs_theme_name ) . '/bootstrap.min.css', array(), '5.3.3', 'all' );
+				wp_enqueue_style( 'bootswatch', get_stylesheet_directory_uri() . '/assets/bootswatch/' . esc_html( $mod_bs_theme_name ) . '/bootstrap.min.css', array(), $theme_version, 'all' );
 			} elseif ( is_rtl() ) {
-				wp_enqueue_style( 'bootswatch-rtl', get_stylesheet_directory_uri() . '/assets/bootswatch/' . esc_html( $mod_bs_theme_name ) . '/bootstrap.rtl.min.css', array(), '5.3.3', 'all' );
+				wp_enqueue_style( 'bootswatch-rtl', get_stylesheet_directory_uri() . '/assets/bootswatch/' . esc_html( $mod_bs_theme_name ) . '/bootstrap.rtl.min.css', array(), $theme_version, 'all' );
 			}
 		}
 		if ( ! $theme_mode ) {
 			if ( ! is_rtl() ) {
-				wp_enqueue_style( 'bootstrap', get_stylesheet_directory_uri() . '/assets/bootstrap/css/bootstrap.min.css', array(), '5.3.3', 'all' );
+				wp_enqueue_style( 'bootstrap', get_stylesheet_directory_uri() . '/assets/bootstrap/css/bootstrap.min.css', array(), $theme_version, 'all' );
 			} elseif ( is_rtl() ) {
-				wp_enqueue_style( 'bootstrap-rtl', get_stylesheet_directory_uri() . '/assets/bootstrap/css/bootstrap.rtl.min.css', array(), '5.3.3', 'all' );
+				wp_enqueue_style( 'bootstrap-rtl', get_stylesheet_directory_uri() . '/assets/bootstrap/css/bootstrap.rtl.min.css', array(), $theme_version, 'all' );
 			}
 		}
 
 		// LightBox2
-		wp_enqueue_style( 'lightbox2', get_stylesheet_directory_uri() . '/assets/lightbox2/css/lightbox.min.css', array(), '2.11.3', 'all' );
+		wp_enqueue_style( 'lightbox2', get_stylesheet_directory_uri() . '/assets/lightbox2/css/lightbox.min.css', array(), $theme_version, 'all' );
 		// load in footer
 		wp_enqueue_script(
 			'lightbox2',
 			get_stylesheet_directory_uri() . '/assets/lightbox2/js/lightbox.min.js',
 			array( 'jquery' ),
-			'2.11.3',
+			$theme_version,
 			array(
 				'strategy'  => 'defer',
 				'in_footer' => true,
@@ -495,11 +503,8 @@ final class Fold extends \DediData\Singleton {
 		);
 
 		// Font Awesome CSS
-		wp_enqueue_style( 'font-awesome', get_stylesheet_directory_uri() . '/assets/font-awesome/css/all.min.css', array(), '7.0.0', 'all' );
+		wp_enqueue_style( 'font-awesome', get_stylesheet_directory_uri() . '/assets/font-awesome/css/all.min.css', array(), $theme_version, 'all' );
 
-		$theme_version = wp_get_theme()->get( 'Version' );
-		/** @psalm-suppress RedundantConditionGivenDocblockType, DocblockTypeContradiction */
-		$theme_version = ! is_array( $theme_version ) ? $theme_version : '';
 		// main css
 		if ( ! is_rtl() ) {
 			wp_enqueue_style( 'theme-style', get_stylesheet_uri(), array(), $theme_version, 'all' );
@@ -535,7 +540,7 @@ final class Fold extends \DediData\Singleton {
 	public function enqueue_fonts(): void {
 		$current_locale    = get_locale();
 		$current_locale_2l = substr( $current_locale, 1, 2 );
-		$locale_settings   = array();
+		$locale_font       = '';
 		$theme_version     = wp_get_theme()->get( 'Version' );
 		/** @psalm-suppress RedundantConditionGivenDocblockType, DocblockTypeContradiction */
 		$theme_version = ! is_array( $theme_version ) ? $theme_version : '';
@@ -544,10 +549,7 @@ final class Fold extends \DediData\Singleton {
 			// Persian RTL
 			// Persian (Afghanistan) RTL
 			wp_enqueue_style( 'dedidata-persian-fonts', get_stylesheet_directory_uri() . '/assets/fonts/persian-fonts.css', array(), $theme_version, 'all' );
-			$locale_settings['title']     = 'shabnam';
-			$locale_settings['font']      = 'sahel';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = 'vazirmatn';
 		} elseif ( 'ar' === $current_locale_2l || 'azb' === $current_locale || 'ckb' === $current_locale || 'ps' === $current_locale || 'haz' === $current_locale || 'ur' === $current_locale_2l || 'ary' === $current_locale || 'skr' === $current_locale ) {
 			// Arabic RTL
 			// South Azerbaijani RTL
@@ -558,160 +560,95 @@ final class Fold extends \DediData\Singleton {
 			// Moroccan Arabic RTL
 			// Saraiki RTL
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Cairo', array(), $theme_version, 'all' );
-			$locale_settings['title']     = 'Cairo';
-			$locale_settings['font']      = 'Cairo';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = 'Cairo';
 		} elseif ( 'bn_BD' === $current_locale || 'bn_IN' === $current_locale ) {
 			// Bengali (Bangladesh)
 			// Bengali (India)
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Hind+Siliguri', array(), $theme_version, 'all' );
-			$locale_settings['title']     = '"Hind Siliguri"';
-			$locale_settings['font']      = '"Hind Siliguri"';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = '"Hind Siliguri"';
 		} elseif ( 'bo' === $current_locale || 'dzo' === $current_locale ) {
 			// Tibetan
 			// Dzongkha
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Jomolhari', array(), $theme_version, 'all' );
-			$locale_settings['title']     = 'Jomolhari';
-			$locale_settings['font']      = 'Jomolhari';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = 'Jomolhari';
 		} elseif ( 'gu' === $current_locale ) {
 			// Gujarati
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Hind+Vadodara', array(), $theme_version, 'all' );
-			$locale_settings['title']     = '"Hind Vadodara"';
-			$locale_settings['font']      = '"Hind Vadodara"';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = '"Hind Vadodara"';
 		} elseif ( 'he_IL' === $current_locale ) {
 			// Hebrew RTL
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Rubik', array(), $theme_version, 'all' );
-			$locale_settings['title']     = 'Rubik';
-			$locale_settings['font']      = 'Rubik';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = 'Rubik';
 		} elseif ( 'hi_IN' === $current_locale || 'mr' === $current_locale || 'ne_NP' === $current_locale ) {
 			// Hindi
 			// Marathi
 			// Nepali
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Poppins', array(), $theme_version, 'all' );
-			$locale_settings['title']     = 'Poppins';
-			$locale_settings['font']      = 'Poppins';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = 'Poppins';
 		} elseif ( 'pa' === $current_locale || 'pa_IN' === $current_locale ) {
 			// Panjabi India
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Mukta+Mahee', array(), $theme_version, 'all' );
-			$locale_settings['title']     = '"Mukta Mahee"';
-			$locale_settings['font']      = '"Mukta Mahee"';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = '"Mukta Mahee"';
 		} elseif ( 'ja' === $current_locale || 'ja_JP' === $current_locale ) {
 			// Japanese
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Noto+Sans+JP', array(), $theme_version, 'all' );
-			$locale_settings['title']     = '"Noto Sans JP"';
-			$locale_settings['font']      = '"Noto Sans JP"';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = '"Noto Sans JP"';
 		} elseif ( 'km' === $current_locale_2l ) {
 			// Cambodian
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Hanuman', array(), $theme_version, 'all' );
-			$locale_settings['title']     = 'Hanuman';
-			$locale_settings['font']      = 'Hanuman';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = 'Hanuman';
 		} elseif ( 'kn' === $current_locale_2l ) {
 			// Kannada
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Baloo+Tamma', array(), $theme_version, 'all' );
-			$locale_settings['title']     = '"Baloo Tamma"';
-			$locale_settings['font']      = '"Baloo Tamma"';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = '"Baloo Tamma"';
 		} elseif ( 'ko' === $current_locale || 'ko_KR' === $current_locale ) {
 			// Korean
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Noto+Sans+KR', array(), $theme_version, 'all' );
-			$locale_settings['title']     = '"Noto Sans KR"';
-			$locale_settings['font']      = '"Noto Sans KR"';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = '"Noto Sans KR"';
 		} elseif ( 'ml' === $current_locale_2l ) {
 			// Malayalam
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Baloo+Chettan', array(), $theme_version, 'all' );
-			$locale_settings['title']     = '"Baloo Chettan"';
-			$locale_settings['font']      = '"Baloo Chettan"';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = '"Baloo Chettan"';
 		} elseif ( 'my' === $current_locale_2l ) {
 			// Burmese
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Padauk', array(), $theme_version, 'all' );
-			$locale_settings['title']     = 'Padauk';
-			$locale_settings['font']      = 'Padauk';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = 'Padauk';
 		} elseif ( 'or' === $current_locale || 'or_IN' === $current_locale ) {
 			// Indo-European Oriya
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Baloo+Bhaina', array(), $theme_version, 'all' );
-			$locale_settings['title']     = '"Baloo Bhaina"';
-			$locale_settings['font']      = '"Baloo Bhaina"';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = '"Baloo Bhaina"';
 		} elseif ( 'si' === $current_locale_2l ) {
 			// Sinhalese
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Abhaya+Libre', array(), $theme_version, 'all' );
-			$locale_settings['title']     = '"Abhaya Libre"';
-			$locale_settings['font']      = '"Abhaya Libre"';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = '"Abhaya Libre"';
 		} elseif ( 'ta' === $current_locale || 'ta_IN' === $current_locale || 'ta_LK' === $current_locale ) {
 			// Tamil
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Catamaran', array(), $theme_version, 'all' );
-			$locale_settings['title']     = 'Catamaran';
-			$locale_settings['font']      = 'Catamaran';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = 'Catamaran';
 		} elseif ( 'te' === $current_locale || 'te_IN' === $current_locale || 'te_ST' === $current_locale ) {
 			// Telugu
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Hind+Guntur', array(), $theme_version, 'all' );
-			$locale_settings['title']     = '"Hind Guntur"';
-			$locale_settings['font']      = '"Hind Guntur"';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = '"Hind Guntur"';
 		} elseif ( 'th' === $current_locale_2l ) {
 			// Thai
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Kanit', array(), $theme_version, 'all' );
-			$locale_settings['title']     = 'Kanit';
-			$locale_settings['font']      = 'Kanit';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = 'Kanit';
 		} elseif ( 'zh-hk' === $current_locale ) {
 			// Chinese (Hong Kong)
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Noto+Sans+HK', array(), $theme_version, 'all' );
-			$locale_settings['title']     = '"Noto Sans HK"';
-			$locale_settings['font']      = '"Noto Sans HK"';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = '"Noto Sans HK"';
 		} elseif ( 'zh-Hans' === $current_locale || 'zh_CN' === $current_locale || 'zh_TW' === $current_locale ) {
 			// Chinese (Simplified)
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Noto+Sans+SC', array(), $theme_version, 'all' );
-			$locale_settings['title']     = '"Noto Sans SC"';
-			$locale_settings['font']      = '"Noto Sans SC"';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = '"Noto Sans SC"';
 		} elseif ( 'zh-Hant' === $current_locale ) {
 			// Chinese (Traditional)
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Noto+Sans+TC', array(), $theme_version, 'all' );
-			$locale_settings['title']     = '"Noto Sans TC"';
-			$locale_settings['font']      = '"Noto Sans TC"';
-			$locale_settings['locale']    = $current_locale;
-			$locale_settings['HTML_lang'] = get_bloginfo( 'language' );
+			$locale_font = '"Noto Sans TC"';
 		} else {
 			// Default English & Others
 			wp_enqueue_style( 'dedidata-google-fonts', 'https://fonts.googleapis.com/css?family=Roboto:300', array(), $theme_version, 'all' );
-			$locale_settings['title']  = 'Roboto';
-			$locale_settings['font']   = 'Roboto';
-			$locale_settings['locale'] = $current_locale;
+			$locale_font = 'Roboto';
 		}//end if
 
 		$custom_style = '
@@ -734,12 +671,8 @@ final class Fold extends \DediData\Singleton {
 			input[type="submit"][disabled]:focus,
 			keygen,
 			blockquote cite,
-			blockquote small{
-				font-family: ' . $locale_settings['font'] . ', Tahoma, Arial, Helvetica, sans-serif;
-				letter-spacing: normal !important;
-				line-height: normal;
-				font-size: medium;
-				font-variation-settings: "wght" 500;
+			blockquote small {
+				font-family: ' . $locale_font . ', Tahoma, Arial, Helvetica, sans-serif;
 			}
 
 			.main-navigation,
@@ -776,12 +709,8 @@ final class Fold extends \DediData\Singleton {
 			.search-field,
 			.popover,
 			.navbar,
-			.mejs-container *{
-				font-family: ' . $locale_settings['font'] . ', Tahoma, Arial, Helvetica, sans-serif !important;
-				letter-spacing: normal !important;
-				line-height: normal;
-				font-size: medium;
-				font-variation-settings: "wght" 500;
+			.mejs-container * {
+				font-family: ' . $locale_font . ', Tahoma, Arial, Helvetica, sans-serif !important;
 			}
 
 			.entry-title,
@@ -801,17 +730,10 @@ final class Fold extends \DediData\Singleton {
 			.jumbotron h5,
 			.jumbotron h6,
 			h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h5, .h5, h6, .h6{
-				font-family: ' . $locale_settings['title'] . ', Arial, sans-serif !important;
-				line-height: normal;
-				letter-spacing: normal !important;
-				font-variation-settings: "wght" 600;
+				font-family: ' . $locale_font . ', Arial, sans-serif !important;
+				font-weight: bold;
 			}
 		';
-		/** @psalm-suppress InvalidArrayOffset */
-		if ( isset( $locale_settings['extra_style'] ) ) {
-			/** @psalm-suppress MixedOperand */
-			$custom_style .= $locale_settings['extra_style'];
-		}
 		wp_add_inline_style( 'theme-style', $custom_style );
 	}
 
@@ -1052,7 +974,7 @@ final class Fold extends \DediData\Singleton {
 			$head_txt_color = 'fff';
 		}
 		/** @psalm-suppress DocblockTypeContradiction */
-		if ( ! isset( $background ) && ! isset( $color ) ) {
+		if ( '' === $background && ! isset( $color ) ) {
 			return;
 		}
 
@@ -1060,7 +982,7 @@ final class Fold extends \DediData\Singleton {
 		$style = isset( $color ) ? "background-color: #$color !important;" : '';
 
 		if ( isset( $background ) ) {
-			$image = " background-image: url('$background') !important;";
+			$image = "background-image: url($background) !important;";
 
 			$repeat = get_theme_mod( 'background_repeat', 'repeat' );
 
@@ -1068,7 +990,7 @@ final class Fold extends \DediData\Singleton {
 				$repeat = 'repeat';
 			}
 
-			$repeat = " background-repeat: $repeat !important;";
+			$repeat = "background-repeat: $repeat !important;";
 
 			$position = get_theme_mod( 'background_position_x', 'left' );
 
@@ -1076,7 +998,7 @@ final class Fold extends \DediData\Singleton {
 				$position = 'left';
 			}
 
-			$position = " background-position: top $position !important;";
+			$position = "background-position: top $position !important;";
 
 			$attachment = get_theme_mod( 'background_attachment', 'scroll' );
 
@@ -1084,7 +1006,7 @@ final class Fold extends \DediData\Singleton {
 				$attachment = 'scroll';
 			}
 
-			$attachment = " background-attachment: $attachment !important;";
+			$attachment = "background-attachment: $attachment !important;";
 
 			$style .= $image . $repeat . $position . $attachment;
 		}//end if
@@ -1102,17 +1024,17 @@ final class Fold extends \DediData\Singleton {
 			#HeaderCarousel .carousel-caption h4 a,
 			#HeaderCarousel .carousel-caption h5,
 			#HeaderCarousel .carousel-caption p,
-			#top-menu ul.mega-menu>li>a,
+			#top-menu ul.navbar-nav>li>a,
 			#top-menu #top-menu-side>li>a,
-			#top-menu.in-top ul.mega-menu>li>a,
+			#top-menu.in-top ul.navbar-nav>li>a,
 			#top-menu.in-top #top-menu-side>li>a,
 			#top-menu .navbar-brand,
 			#top-menu .navbar-toggler {
 				color: #<?php echo esc_html( $head_txt_color ); ?>;
 			}
-			#top-menu ul.mega-menu>.current-menu-item>a::before,
-			#top-menu ul.mega-menu>.current-menu-ancestor>a::before,
-			#bottom-menu ul.mega-menu>.current-menu-ancestor>a::before {
+			#top-menu ul.navbar-nav>.current-menu-item>a::before,
+			#top-menu ul.navbar-nav>.current-menu-ancestor>a::before,
+			#bottom-menu ul.navbar-nav>.current-menu-ancestor>a::before {
 				background-color: #<?php echo esc_html( $head_txt_color ); ?>;
 			}
 			@media (max-width: 767px) {

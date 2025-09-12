@@ -13,7 +13,7 @@ $sidebar_condition = is_active_sidebar( 'sidebar-1' ); ?>
 <?php
 $extra_class = '';
 if ( $sidebar_condition ) {
-	$extra_class = ' col-md-8 col-lg-9 order-2 p-2';
+	$extra_class = ' col-md-8 col-lg-9 order-1 order-md-2 p-2';
 	?>
 	<div class="row">
 	<?php

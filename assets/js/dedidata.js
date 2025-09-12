@@ -319,6 +319,90 @@ jQuery( document ).ready(
 
 		SetMegaMenu();
 
+		function SetNormalMenu() {
+			if ($( "body" ).css( 'direction' ) === 'rtl') {
+				// RTL
+				if ($( window ).width() >= 1024) {
+					$( ".rtl .normal-menu .dropdown-menu" ).each(
+						function () {
+							let NormalMenuDropdown = $( this );
+							NormalMenuDropdown.css( "left", "auto" );
+							let ParentListItemRight = NormalMenuDropdown.parent().offset().left + NormalMenuDropdown.parent().width();
+							NormalMenuDropdown.css( "width", "270px" );
+							NormalMenuDropdown.children( "li" ).css( 'width', '100%' );
+							if (ParentListItemRight < 270) {
+								NormalMenuDropdown.css( 'left', '0' );
+							}
+						}
+					);
+				} else if ($( window ).width() >= 768 && $( window ).width() < 1024) {
+					$( ".rtl .normal-menu .dropdown-menu" ).each(
+						function () {
+							let NormalMenuDropdown = $( this );
+							NormalMenuDropdown.css( "left", "auto" );
+							let ParentListItemRight = NormalMenuDropdown.parent().offset().left + NormalMenuDropdown.parent().width();
+							NormalMenuDropdown.css( "width", "270px" );
+							NormalMenuDropdown.children( "li" ).css( 'width', '100%' );
+							if (ParentListItemRight < 270) {
+								NormalMenuDropdown.css( 'left', '0' );
+							}
+						}
+					);
+				} else if ( $( window ).width() < 768) {
+					$( ".rtl .normal-menu .dropdown-menu" ).each(
+						function () {
+							let NormalMenuDropdown = $( this );
+							NormalMenuDropdown.css( "left", "auto" );
+							NormalMenuDropdown.css( "width", "100%" );
+							NormalMenuDropdown.children( "li" ).css( 'width', '100%' );
+						}
+					);
+				}//end if
+			} else {
+				// LTR
+				if ($( window ).width() >= 1024) {
+					$( ".normal-menu .dropdown-menu" ).each(
+						function () {
+							let NormalMenuDropdown = $( this );
+							let WindowRemain       = $( window ).width() - 270;
+							NormalMenuDropdown.css( "right", "auto" );
+							let ParentListItemLeft = NormalMenuDropdown.parent().offset().left;
+							NormalMenuDropdown.css( "width", "270px" );
+							NormalMenuDropdown.children( "li" ).css( 'width', '100%' );
+							if (ParentListItemLeft > WindowRemain) {
+								NormalMenuDropdown.css( 'right', '0' );
+							}
+						}
+					);
+				} else if ($( window ).width() >= 768 && $( window ).width() < 1024) {
+					$( ".normal-menu .dropdown-menu" ).each(
+						function () {
+							let NormalMenuDropdown = $( this );
+							let WindowRemain       = $( window ).width() - 270;
+							NormalMenuDropdown.css( "right", "auto" );
+							let ParentListItemLeft = NormalMenuDropdown.parent().offset().left;
+							NormalMenuDropdown.css( "width", "270px" );
+							NormalMenuDropdown.children( "li" ).css( 'width', '100%' );
+							if (ParentListItemLeft > WindowRemain) {
+								NormalMenuDropdown.css( 'right', '0' );
+							}
+						}
+					);
+				} else if ($( window ).width() < 768) {
+					$( ".normal-menu .dropdown-menu" ).each(
+						function () {
+							let NormalMenuDropdown = $( this );
+							NormalMenuDropdown.css( "right", "auto" );
+							NormalMenuDropdown.css( "width", "100%" );
+							NormalMenuDropdown.children( "li" ).css( 'width', '100%' );
+						}
+					);
+				}//end if
+			}//end if
+		}
+
+		SetNormalMenu();
+
 		let resizeTimer;
 		$( window ).on(
 			'resize',
@@ -329,6 +413,7 @@ jQuery( document ).ready(
 					function () {
 						// Call the SetMegaMenu function after 1 second
 						SetMegaMenu();
+						SetNormalMenu();
 					},
 					1000
 				);
@@ -387,7 +472,8 @@ jQuery( document ).ready(
 		);
 
 		// add class to woocommerce product categories
-		$( '.widget_product_categories .cat-item' ).addClass( 'shadow rounded' );
+		$( '.widget_product_categories .cat-item' ).not( '.cat-parent' ).addClass( 'shadow-sm rounded p-2 my-2' );
+		$( '.widget_product_categories .cat-item.cat-parent' ).addClass( 'my-2' );
 
 		$( "#widgetModal" ).modal( "show" );
 

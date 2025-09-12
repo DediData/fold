@@ -27,7 +27,7 @@ final class Walker_Bootstrap_Nav extends \Walker_Nav_Menu {
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		if ( 0 === $depth ) {
 			// main sub menus
-			$output .= '<ul role="menu" class="dropdown-menu shadow p-1">';
+			$output .= '<ul role="menu" class="dropdown-menu shadow p-2">';
 		} else {
 			// sub menu columns
 			$output .= '<ul role="menu" class="inner-menu">';
@@ -66,10 +66,16 @@ final class Walker_Bootstrap_Nav extends \Walker_Nav_Menu {
 		$classes[] = 'list-unstyled';
 		$classes[] = 'nav-item';
 		if ( 0 === $depth ) {
-			$classes[] .= ' px-1 py-2';
+			$classes[] .= ' px-2 py-2 text-center';
 		}
 		if ( 1 === $depth ) {
-			$classes[] .= ' px-1 py-1';
+			$menu_mode = get_theme_mod( 'menu_mode', 'mega-menu' );
+			if ( false === in_array( $menu_mode, array( 'mega-menu', 'normal-menu' ), true ) ) {
+				$menu_mode = 'mega-menu';
+			}
+			if ( 'mega-menu' === $menu_mode ) {
+				$classes[] .= ' px-1 py-1';
+			}
 		}
 		if ( $depth > 1 ) {
 			$classes[] .= '';

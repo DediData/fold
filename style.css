@@ -11,7 +11,7 @@ License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: fold
 Tags: one-column, two-columns, flexible-header, custom-colors, e-commerce, custom-header, custom-background, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, post-formats, rtl-language-support, sticky-post, theme-options, threaded-comments, left-sidebar, translation-ready, portfolio, photography
-Version: 5.0.4
+Version: 5.1.0
 */
 
 /*
@@ -41,32 +41,32 @@ article {
 /* Global */
 h1,
 .h1 {
-	font-size: 1.5em;
+	font-size: 1.5rem;
 }
 
 h2,
 .h2 {
-	font-size: 1.4em;
+	font-size: 1.4rem;
 }
 
 h3,
 .h3 {
-	font-size: 1.3em;
+	font-size: 1.3rem;
 }
 
 h4,
 .h4 {
-	font-size: 1.2em;
+	font-size: 1.2rem;
 }
 
 h5,
 .h5 {
-	font-size: 1em;
+	font-size: 1rem;
 }
 
 h6,
 .h6 {
-	font-size: 0.9em;
+	font-size: 0.9rem;
 }
 
 img,
@@ -163,11 +163,6 @@ body>header a {
 	opacity: 1;
 }
 
-/* Mega Menu */
-.mega-menu .dropdown {
-	position: static !important;
-}
-
 .dropdown-menu>li>a:focus,
 .dropdown-menu>li>a:hover {
 	background-image: none;
@@ -190,43 +185,39 @@ body>header a {
 	color: var(--bs-light);
 }
 
-.mega-menu .dropdown-menu * {
+.navbar .dropdown {
+	position: static !important;
+	text-align: center;
+}
+
+.navbar .dropdown-menu * {
 	z-index: 10000;
 	/* fix for chrome white flash */
 	-webkit-backface-visibility: hidden;
 }
 
-.mega-menu .dropdown-menu a,
-.mega-menu .menu-item-description {
+.navbar .dropdown-menu a,
+.navbar .menu-item-description {
 	display: block;
 }
 
-.mega-menu .dropdown-menu a.submenu-title-link:hover,
-.mega-menu .dropdown-menu a.submenu-child-link:hover {
+.navbar .dropdown-menu a.submenu-title-link:hover,
+.navbar .dropdown-menu a.submenu-child-link:hover {
 	font-weight: bold;
 	padding-right: 0;
 	padding-left: 10px;
 }
 
-.mega-menu .dropdown-menu>li {
-	width: 290px;
-}
-
-.mega-menu .menu-item-description {
+.navbar .menu-item-description {
 	text-indent: 20px;
 }
 
-.mega-menu .submenu-child-link {
+.navbar .submenu-child-link {
 	width: 100%;
 }
 
-.mega-menu>.nav-item {
+.navbar>.nav-item {
 	text-align: center;
-}
-
-.ms-auto.mega-menu .dropdown-menu {
-	left: auto;
-	right: 0;
 }
 
 #top-menu .current-menu-item>a:hover::before,
@@ -331,10 +322,6 @@ body>header a {
 		pointer-events: auto;
 	}
 
-	.nav-item {
-		margin-right: auto;
-	}
-
 	/* Submenu links */
 	.dropdown-menu {
 		display: flex;
@@ -359,7 +346,7 @@ body>header a {
 		z-index: 99;
 	}
 
-	.mega-menu .menu-item-has-children>.dropdown-menu {
+	.navbar .menu-item-has-children>.dropdown-menu {
 		left: auto;
 		display: inline-block;
 		border: 0;
@@ -367,11 +354,7 @@ body>header a {
 		margin-top: 8px;
 	}
 
-	.mega-menu .menu-col {
-		display: table;
-	}
-
-	.mega-menu .navbar-brand,
+	.navbar .navbar-brand,
 	#top-menu #top-menu-side>li>a {
 		color: rgba(var(--bs-link-color-rgb),var(--bs-link-opacity,1));
 	}
@@ -394,35 +377,35 @@ body>header a {
 		margin-top: 15px;
 	}
 
-	.mega-menu .open>.dropdown-menu {
-		display: block;
-	}
-
-	.mega-menu .dropdown-menu li {
-		display: block;
-	}
-
-	.mega-menu .dropdown-menu>li,
-	.mega-menu .dropdown-menu a,
-	.mega-menu .menu-item-description {
-		width: 100%;
-	}
-
-	.mega-menu>.nav-item {
+	.navbar>.nav-item {
 		padding-bottom: 5px;
 	}
 
-	.mega-menu .menu-item,
-	.mega-menu .submenu-link {
+	.navbar .menu-item,
+	.navbar .submenu-link {
 		text-align: center;
 	}
 
-	.mega-menu .nav {
+	ul.navbar>li>a {
+		line-height: 50px;
+	}
+
+	.navbar .nav {
 		display: initial;
 	}
 
-	ul.mega-menu>li>a {
-		line-height: 50px;
+	.navbar .open>.dropdown-menu {
+		display: block;
+	}
+
+	.navbar .dropdown-menu li {
+		display: block;
+	}
+
+	.navbar .dropdown-menu>li,
+	.navbar .dropdown-menu a,
+	.navbar .menu-item-description {
+		width: 100%;
 	}
 
 }
@@ -517,8 +500,8 @@ body>header a {
 	}
 
 	.widget_nav_menu .dropdown-menu .submenu-link,
-	.mega-menu .dropdown-menu a,
-	.mega-menu .menu-item-description {
+	.dropdown-menu a,
+	.menu-item-description {
 		white-space: normal;
 		line-height: normal;
 	}
@@ -583,7 +566,7 @@ body>header a {
 	height: 100%;
 	z-index: 2;
 	background-color: #000;
-	opacity: 0.3;
+	opacity: 0.1;
 }
 
 #HeaderCarousel .carousel-caption {

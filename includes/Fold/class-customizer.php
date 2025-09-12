@@ -123,6 +123,51 @@ final class Customizer {
 			)
 		);
 
+		$wp_customize->add_setting(
+			// No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
+			'menu_mode',
+			array(
+				// Default setting/value to save
+				'default'           => 'mega-menu',
+				// Is this an 'option' or a 'theme_mod'?
+				'type'              => 'theme_mod',
+				// Optional. Special permissions for accessing this setting.
+				'capability'        => 'edit_theme_options',
+				'sanitize_callback' => '\Fold\Customizer::sanitize_text',
+				// What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
+				// 'transport'      => 'postMessage',
+			)
+		);
+
+		/*
+		Supports basic input types `text`, `checkbox`, `textarea`, `radio`, `select` and `dropdown-pages`.
+		Additional input types such as `email`, `url`, `number`, `hidden` and `date` are supported implicitly.
+		*/
+		$wp_customize->add_control(
+			new \WP_Customize_Control(
+				// Pass the $wp_customize object (required)
+				$wp_customize,
+				// Set a unique ID for the control
+				'menu_mode',
+				array(
+					// Admin-visible name of the control
+					'label'       => esc_html__( 'Select Menu Mode', 'fold' ),
+					'description' => esc_html__( 'Using this option you can change the menu mode', 'fold' ),
+					// Which setting to load and manipulate (serialized is okay)
+					'setting'     => 'menu_mode',
+					// Determines the order this control appears in for the specified section
+					'priority'    => 10,
+					// ID of the section this control should render in (can be one of yours, or a WordPress default section)
+					'section'     => 'fold-options',
+					'type'        => 'select',
+					'choices'     => array(
+						'mega-menu'   => esc_html__( 'Mega Menu', 'fold' ),
+						'normal-menu' => esc_html__( 'Normal Menu', 'fold' ),
+					),
+				)
+			)
+		);
+
 		if ( function_exists( 'wp_statistics_pages' ) ) {
 			$wp_customize->add_setting(
 				// No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record

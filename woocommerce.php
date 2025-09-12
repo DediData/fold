@@ -15,7 +15,7 @@ get_header();
 		// @phan-suppress-next-line PhanPluginRedundantAssignmentInGlobalScope
 		$extra_class = '';
 		if ( is_active_sidebar( 'sidebar-1' ) ) {
-			$extra_class = ' col-md-8 col-lg-9 order-2 p-2';
+			$extra_class = ' col-md-8 col-lg-9 order-1 order-md-2 p-2';
 			echo '<div class="row">';
 		}
 		?>

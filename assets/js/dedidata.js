@@ -474,6 +474,9 @@ jQuery( document ).ready(
 		// add class to woocommerce product categories
 		$( '.widget_product_categories .cat-item' ).not( '.cat-parent' ).addClass( 'shadow-sm rounded p-2 my-2' );
 		$( '.widget_product_categories .cat-item.cat-parent' ).addClass( 'my-2' );
+		if ( $( '#top-menu' ).length ) {
+			$( '.woocommerce-store-notice.demo_store' ).css( 'top', '53px' ).css( 'z-index', '1000' );
+		}
 
 		$( "#widgetModal" ).modal( "show" );
 

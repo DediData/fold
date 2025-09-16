@@ -22,7 +22,7 @@ declare(strict_types=1);
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <a class="visually-hidden-focusable rounded shadow d-flex justify-content-center p-1 m-1" href="#primary"><?php esc_html_e( 'Skip to main content', 'fold' ); ?></a>
-<a id="back-to-top" href="#" class="btn btn-outline-primary back-to-top" type="button" role="button" title="<?php esc_attr_e( 'Go to top', 'fold' ); ?>">
+<a id="back-to-top" href="#" class="btn back-to-top shadow" type="button" role="button" title="<?php esc_attr_e( 'Go to top', 'fold' ); ?>">
 	<span class="fas fa-chevron-up"></span>
 </a>
 <header>

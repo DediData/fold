@@ -971,7 +971,7 @@ final class Fold extends \DediData\Singleton {
 		$color          = get_background_color();
 		$head_txt_color = get_header_textcolor();
 		if ( 'blank' === $head_txt_color ) {
-			$head_txt_color = 'fff';
+			$head_txt_color = 'ffffff';
 		}
 		/** @psalm-suppress DocblockTypeContradiction */
 		if ( '' === $background && ! isset( $color ) ) {

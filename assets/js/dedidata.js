@@ -457,17 +457,24 @@ jQuery( document ).ready(
 		$( '.gallery' ).each(
 			function () {
 				// set the rel for each gallery
-				$( this ).find( '.gallery-icon a[href$=".jpg"], .gallery-icon a[href$=".jpeg"],.gallery-icon a[href$=".gif"],.gallery-icon a[href$=".webp"], .gallery-icon a[href$=".png"]' ).attr( 'data-lightbox', 'group-' + $( this ).attr( 'id' ) ).lightbox(
-					{
-						infobar: true,
-						protect: true
+
+				let $links = $( this ).find(
+					'.gallery-icon a[href$=".jpg"], .gallery-icon a[href$=".jpeg"], .gallery-icon a[href$=".gif"], .gallery-icon a[href$=".webp"], .gallery-icon a[href$=".png"]'
+				);
+
+				$links.attr( 'data-lightbox', 'group-' + $( this ).attr( 'id' ) );
+
+				$( this ).find( '.gallery-icon a' ).each(
+					function () {
+						$( this ).attr( 'data-title', $( this ).find( 'img' ).attr( 'alt' ) );
 					}
 				);
-				$( '.gallery-icon' ).each(
-					function () {
-						$( this ).find( 'a' ).attr( 'data-title', $( this ).find( 'a img' ).attr( 'alt' ) );
-					}
-				)
+			}
+		);
+		lightbox.option(
+			{
+				'alwaysShowNavOnTouchDevices': true,
+				'wrapAround': true
 			}
 		);
 

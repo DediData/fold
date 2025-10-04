@@ -41,6 +41,10 @@ article {
 	overflow: auto;
 }
 
+#main {
+	min-height: 500px;
+}
+
 /* Global */
 h1,
 .h1 {
@@ -124,26 +128,6 @@ a:active {
 
 body>header a {
 	text-decoration: none;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-	width: 20px;
-}
-
-::-webkit-scrollbar-track {
-	background-color: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-	background-color: darkgray;
-	border-radius: 20px;
-	border: 6px solid transparent;
-	background-clip: content-box;
-}
-
-::-webkit-scrollbar-thumb:hover {
-	background-color: #808080;
 }
 
 /* Back To Top Link */
@@ -1208,6 +1192,58 @@ body>header a {
 	width: auto;
 	/* Above WP toolbar. */
 	z-index: 100000;
+}
+
+/* Gallery */
+.gallery-item {
+	display: inline-block;
+	text-align: center;
+	vertical-align: top;
+	width: 100%;
+}
+
+.gallery-item a {
+	display: block;
+}
+
+.gallery-item a:focus img {
+	outline-offset: -2px;
+}
+
+.gallery-columns-2 .gallery-item {
+	max-width: 50%;
+}
+
+.gallery-columns-3 .gallery-item {
+	max-width: 33.33%;
+}
+
+.gallery-columns-4 .gallery-item {
+	max-width: 25%;
+}
+
+.gallery-columns-5 .gallery-item {
+	max-width: 20%;
+}
+
+.gallery-columns-6 .gallery-item {
+	max-width: 16.66%;
+}
+
+.gallery-columns-7 .gallery-item {
+	max-width: 14.28%;
+}
+
+.gallery-columns-8 .gallery-item {
+	max-width: 12.5%;
+}
+
+.gallery-columns-9 .gallery-item {
+	max-width: 11.11%;
+}
+
+.gallery-caption {
+	display: block;
 }
 
 /* Font Awesome */

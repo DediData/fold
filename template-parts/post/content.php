@@ -8,9 +8,20 @@
 
 declare(strict_types=1);
 
+$post_class = '';
+if ( ! str_contains( get_page_template(), 'template-fullwidth.php' ) ) {
+	$post_class = 'shadow rounded mb-3 p-3';
+}
 ?>
-<article id="post-<?php the_ID(); ?>" <?php post_class( 'shadow rounded mb-3 p-3' ); ?>>
-	<?php get_template_part( 'template-parts/part/entry-header' ); ?>
+<article id="post-<?php the_ID(); ?>" <?php post_class( $post_class ); ?>>
+	<?php
+	if ( function_exists( 'is_woocommerce' ) && ( is_woocommerce() || is_shop() || is_cart() || is_checkout() || is_account_page() || is_product() || is_product_category() || is_product_tag() ) ) {
+		?>
+		<div class="pb-2"><?php woocommerce_breadcrumb(); ?></div>
+		<?php
+	}
+	get_template_part( 'template-parts/part/entry-header' );
+	?>
 	<div class="entry-content">
 		<?php get_template_part( 'template-parts/part/entry-featured' ); ?>
 		<?php

@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 get_header(); ?>
 <main id="main" class="mt-3">
-	<div id="primary" class="container-fluid col-12">
+	<div id="primary" class="col-12">
 		<?php
 		if ( is_home() || is_front_page() ) {
 			dynamic_sidebar( 'frontend-content-top' );

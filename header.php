@@ -27,7 +27,13 @@ declare(strict_types=1);
 </a>
 <header>
 	<?php get_template_part( 'template-parts/part/popup-login' ); ?>
-	<?php get_template_part( 'template-parts/part/nav-header-top' ); ?>
-	<?php get_template_part( 'template-parts/part/header-carousel' ); ?>
-	<?php get_template_part( 'template-parts/part/nav-header-bottom' ); ?>
+	<?php
+	if ( function_exists( 'is_woocommerce' ) && ( is_woocommerce() || is_shop() || is_cart() || is_checkout() || is_account_page() || is_product() || is_product_category() || is_product_tag() ) ) {
+		get_template_part( 'template-parts/part/nav-no-header-top' );
+	} else {
+		get_template_part( 'template-parts/part/nav-header-top' );
+		get_template_part( 'template-parts/part/header-carousel' );
+		get_template_part( 'template-parts/part/nav-header-bottom' );
+	}
+	?>
 </header>

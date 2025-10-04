@@ -30,7 +30,7 @@ if ( isset( $theme_mod_display_login_link ) ) {
 							<div class="form-group has-feedback">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-at fa-lg"></i></span>
-									<input id="login-username" style="direction: ltr;" type="email" class="form-control" name="log"
+									<input id="login-username" style="direction: ltr;" type="email" class="form-control" name="log" autocomplete="username"
 										placeholder="<?php esc_attr_e( 'Email Address', 'fold' ); ?>" required="required" data-error="<?php esc_attr_e( 'Please enter your valid email address!', 'fold' ); ?>" />
 								</div>
 								<span class="fas form-control-feedback" aria-hidden="true"></span>
@@ -39,7 +39,7 @@ if ( isset( $theme_mod_display_login_link ) ) {
 							<div class="form-group has-feedback">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-key fa-lg"></i></span>
-									<input id="login-password" style="direction: ltr;" type="password" class="form-control" name="pwd"
+									<input id="login-password" style="direction: ltr;" type="password" class="form-control" name="pwd" autocomplete="current-password"
 										placeholder="<?php esc_attr_e( 'Password', 'fold' ); ?>"  required="required" data-error="<?php esc_attr_e( 'Please enter your password!', 'fold' ); ?>" />
 								</div>
 								<span class="fas form-control-feedback" aria-hidden="true"></span>
@@ -80,7 +80,7 @@ if ( isset( $theme_mod_display_login_link ) ) {
 							<div class="form-group has-feedback">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-at fa-lg"></i></span>
-									<input id="username" style="direction: ltr;" type="email" class="form-control" name="username"
+									<input id="username" style="direction: ltr;" type="email" class="form-control" name="username" autocomplete="username"
 										placeholder="<?php esc_attr_e( 'Email Address', 'fold' ); ?>" required="required" data-error="<?php esc_attr_e( 'Please enter your valid email address!', 'fold' ); ?>" />
 								</div>
 								<span class="fas form-control-feedback" aria-hidden="true"></span>
@@ -89,7 +89,7 @@ if ( isset( $theme_mod_display_login_link ) ) {
 							<div class="form-group has-feedback">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-key fa-lg"></i></span>
-									<input id="password" style="direction: ltr;" type="password" class="form-control" name="password"
+									<input id="password" style="direction: ltr;" type="password" class="form-control" name="password" autocomplete="current-password"
 										placeholder="<?php esc_attr_e( 'Password', 'fold' ); ?>"  required="required" data-error="<?php esc_attr_e( 'Please enter your password!', 'fold' ); ?>" />
 								</div>
 								<span class="fas form-control-feedback" aria-hidden="true"></span>
@@ -126,7 +126,7 @@ if ( isset( $theme_mod_display_login_link ) ) {
 							<div class="form-group has-feedback">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-at fa-lg"></i></span>
-									<input id="login-username" style="direction: ltr;" type="email" class="form-control" name="username"
+									<input id="login-username" style="direction: ltr;" type="email" class="form-control" name="username" autocomplete="username"
 										placeholder="<?php esc_attr_e( 'Email Address', 'fold' ); ?>" required="required" data-error="<?php esc_attr_e( 'Please enter your valid email address!', 'fold' ); ?>" />
 								</div>
 								<span class="fas form-control-feedback" aria-hidden="true"></span>
@@ -135,7 +135,7 @@ if ( isset( $theme_mod_display_login_link ) ) {
 							<div class="form-group has-feedback">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-key fa-lg"></i></span>
-									<input id="login-password" style="direction: ltr;" type="password" class="form-control" name="password"
+									<input id="login-password" style="direction: ltr;" type="password" class="form-control" name="password" autocomplete="current-password"
 										placeholder="<?php esc_attr_e( 'Password', 'fold' ); ?>"  required="required" data-error="<?php esc_attr_e( 'Please enter your password!', 'fold' ); ?>" />
 								</div>
 								<span class="fas form-control-feedback" aria-hidden="true"></span>

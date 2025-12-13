@@ -88,7 +88,7 @@ final class Walker_Bootstrap_Comment extends \Walker_Comment {
 				);
 				?>
 				<div class="float-end">
-					<?php edit_comment_link( '<i class="fas fa-pencil-square-o mt-1" aria-hidden="true"></i> ' . esc_html__( 'Edit', 'fold' ), '', '' ); ?>
+					<?php edit_comment_link( '<i class="fas fa-pencil mt-1" aria-hidden="true"></i> ' . esc_html__( 'Edit', 'fold' ), '', '' ); ?>
 				</div>
 			</div>
 		<?php

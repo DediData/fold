@@ -53,8 +53,10 @@
 					$( '#HeaderCarousel .carousel-caption h5' ).css( 'color', newVal );
 					$( '#HeaderCarousel .carousel-caption p' ).css( 'color', newVal );
 					$( '#top-menu.in-top #menu-main-menu>li>a' ).css( 'color', newVal );
-					$( '#top-menu.in-top #top-menu-side>li>a' ).css( 'color', newVal );
+					$( '#top-menu.in-top #second-header-bar>li>a' ).css( 'color', newVal );
 					$( '#top-menu.in-top .navbar-toggler-icon' ).css( 'background-color', newVal );
+					$( '#top-menu.in-top .navbar-nav > li::after' ).css( 'border-color', newVal );
+					$( '#top-menu.in-top .navbar-nav > a::after' ).css( 'border-color', newVal );
 				}
 			);
 		}

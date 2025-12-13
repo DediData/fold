@@ -13,7 +13,7 @@ if ( has_nav_menu( 'header' ) || has_nav_menu( 'header-right' ) || is_customize_
 		$menu_mode = 'mega-menu';
 	}
 	?>
-	<nav id="header-menu" class="navbar navbar-expand-md shadow container rounded bg-light transition">
+	<nav id="header-menu" class="navbar navbar-expand-md shadow container rounded bg-gradient <?php echo esc_attr( FOLD()->primary_bg_mode ); ?>">
 		<div class="container-fluid">
 			<button class="navbar-toggler mx-auto" type="button" data-bs-toggle="collapse" data-bs-target="#header-navbar-collapse" aria-controls="header-navbar-collapse" aria-expanded="false" aria-label="<?php esc_attr_e( 'Toggle navigation', 'fold' ); ?>">
 				<span class="navbar-toggler-icon"></span>

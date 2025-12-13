@@ -13,7 +13,7 @@ $header_image_url = is_string( $header_image->url ) ? $header_image->url : '';
 ?>
 <section class="main-slider">
 <?php
-if ( ( is_home() || is_front_page() ) && count( $attachments ) > 0 ) {
+if ( ( is_home() || is_front_page() ) && count( $attachments ) > 1 ) {
 	?>
 	<div id="HeaderCarousel" class="carousel rounded-bottom-3 slide shadow carousel-fade" data-bs-ride="carousel" data-bs-interval="8000">
 		<div class="carousel-indicators d-none d-sm-flex">

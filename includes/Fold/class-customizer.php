@@ -40,26 +40,70 @@ final class Customizer {
 	 */
 	public static function register( \WP_Customize_Manager $wp_customize ): void {
 
-		$wp_customize->add_section(
-			'fold-options',
+		$wp_customize->add_setting(
+			'light_primary_color',
 			array(
-				// Visible title of section
-				'title'       => esc_html__( 'Theme Options', 'fold' ),
-				// Determines what order this appears in
-				'priority'    => 20,
-				// Capability needed to tweak
-				'capability'  => 'edit_theme_options',
-				// Descriptive tooltip
-				'description' => esc_html__( 'Allows you to customize settings for Theme.', 'fold' ),
+				// Default setting/value to save
+				'default'           => '#0d6efd',
+				// Is this an 'option' or a 'theme_mod'?
+				'type'              => 'theme_mod',
+				// Optional. Special permissions for accessing this setting.
+				'capability'        => 'edit_theme_options',
+				'transport'         => 'refresh',
+				'sanitize_callback' => 'sanitize_hex_color',
+				// What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
+				// 'transport'      => 'postMessage',
+			)
+		);
+
+		$wp_customize->add_control(
+			new \WP_Customize_Color_Control(
+				$wp_customize,
+				'light_primary_color',
+				array(
+					'label'    => esc_html__( 'Primary Theme Color for Light Mode', 'fold' ),
+					'section'  => 'colors',
+					'settings' => 'light_primary_color',
+					'priority' => 10,
+				)
+			)
+		);
+
+		$wp_customize->add_setting(
+			'dark_primary_color',
+			array(
+				// Default setting/value to save
+				'default'           => '#3090ff',
+				// Is this an 'option' or a 'theme_mod'?
+				'type'              => 'theme_mod',
+				// Optional. Special permissions for accessing this setting.
+				'capability'        => 'edit_theme_options',
+				'transport'         => 'refresh',
+				'sanitize_callback' => 'sanitize_hex_color',
+				// What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
+				// 'transport'      => 'postMessage',
+			)
+		);
+
+		$wp_customize->add_control(
+			new \WP_Customize_Color_Control(
+				$wp_customize,
+				'dark_primary_color',
+				array(
+					'label'    => esc_html__( 'Primary Theme Color for Dark Mode', 'fold' ),
+					'section'  => 'colors',
+					'settings' => 'dark_primary_color',
+					'priority' => 10,
+				)
 			)
 		);
 
 		$wp_customize->add_setting(
 			// No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
-			'bootstrap_theme_name',
+			'bootstrap_theme',
 			array(
 				// Default setting/value to save
-				'default'           => 'default',
+				'default'           => 'light',
 				// Is this an 'option' or a 'theme_mod'?
 				'type'              => 'theme_mod',
 				// Optional. Special permissions for accessing this setting.
@@ -79,47 +123,39 @@ final class Customizer {
 				// Pass the $wp_customize object (required)
 				$wp_customize,
 				// Set a unique ID for the control
-				'bootstrap_theme_name',
+				'bootstrap_theme',
 				array(
 					// Admin-visible name of the control
-					'label'       => esc_html__( 'Select Theme Name', 'fold' ),
+					'label'       => esc_html__( 'Select Theme', 'fold' ),
 					'description' => esc_html__( 'Using this option you can change the theme colors', 'fold' ),
 					// Which setting to load and manipulate (serialized is okay)
-					'setting'     => 'bootstrap_theme_name',
+					'setting'     => 'bootstrap_theme',
 					// Determines the order this control appears in for the specified section
-					'priority'    => 10,
+					'priority'    => 9,
 					// ID of the section this control should render in (can be one of yours, or a WordPress default section)
-					'section'     => 'fold-options',
+					'section'     => 'colors',
 					'type'        => 'select',
 					'choices'     => array(
-						'default'   => esc_html__( 'Default', 'fold' ),
-						'cerulean'  => 'Cerulean',
-						'cosmo'     => 'Cosmo',
-						'cyborg'    => 'Cyborg',
-						'darkly'    => 'Darkly',
-						'flatly'    => 'Flatly',
-						'journal'   => 'Journal',
-						'litera'    => 'Litera',
-						'lumen'     => 'Lumen',
-						'lux'       => 'Lux',
-						'materia'   => 'Materia',
-						'minty'     => 'Minty',
-						'morph'     => 'Morph',
-						'pulse'     => 'Pulse',
-						'quartz'    => 'Quartz',
-						'sandstone' => 'Sandstone',
-						'simplex'   => 'Simplex',
-						'sketchy'   => 'Sketchy',
-						'slate'     => 'Slate',
-						'solar'     => 'Solar',
-						'spacelab'  => 'Spacelab',
-						'superhero' => 'Superhero',
-						'united'    => 'United',
-						'vapor'     => 'Vapor',
-						'yeti'      => 'Yeti',
-						'zephyr'    => 'Zephyr',
+						'light'      => esc_html__( 'Default Light - User Switchable', 'fold' ),
+						'dark'       => esc_html__( 'Default Dark - User Switchable', 'fold' ),
+						'light-only' => esc_html__( 'Light Only', 'fold' ),
+						'dark-only'  => esc_html__( 'Dark Only', 'fold' ),
 					),
 				)
+			)
+		);
+
+		$wp_customize->add_section(
+			'fold-options',
+			array(
+				// Visible title of section
+				'title'       => esc_html__( 'Theme Options', 'fold' ),
+				// Determines what order this appears in
+				'priority'    => 20,
+				// Capability needed to tweak
+				'capability'  => 'edit_theme_options',
+				// Descriptive tooltip
+				'description' => esc_html__( 'Allows you to customize settings for Theme.', 'fold' ),
 			)
 		);
 
@@ -393,8 +429,6 @@ final class Customizer {
 					// Admin-visible name of the control
 					'label'           => esc_html__( 'Login form system', 'fold' ),
 					'description'     => esc_html__( 'Please select the login form system', 'fold' ),
-					// List of custom input attributes for control output, where attribute names are the keys and values are the values.
-					'input_attrs'     => array(),
 					// Not used for 'checkbox', 'radio', 'select', 'textarea', or 'dropdown-pages' control types. Default empty array.
 					// (bool) Show UI for adding new content, currently only used for the dropdown-pages control. Default false.
 					'allow_addition'  => false,
@@ -460,6 +494,98 @@ final class Customizer {
 				)
 			)
 		);
+
+		$wp_customize->add_setting(
+			// No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
+			'display_search_icon',
+			array(
+				// Default setting/value to save
+				'default'           => 'yes',
+				// Is this an 'option' or a 'theme_mod'?
+				'type'              => 'theme_mod',
+				// Optional. Special permissions for accessing this setting.
+				'capability'        => 'edit_theme_options',
+				// What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
+				// 'transport'      => 'postMessage',
+				'sanitize_callback' => '\Fold\Customizer::sanitize_text',
+			)
+		);
+
+		/*
+		Supports basic input types `text`, `checkbox`, `textarea`, `radio`, `select` and `dropdown-pages`.
+		Additional input types such as `email`, `url`, `number`, `hidden` and `date` are supported implicitly.
+		*/
+		$wp_customize->add_control(
+			new \WP_Customize_Control(
+				// Pass the $wp_customize object (required)
+				$wp_customize,
+				// Set a unique ID for the control
+				'display_search_icon',
+				array(
+					// Admin visible name of the control
+					'label'       => esc_html__( 'Display search icon', 'fold' ),
+					'description' => esc_html__( 'Display search icon on top menu bar', 'fold' ),
+					// Which setting to load and manipulate (serialized is okay)
+					'setting'     => 'display_search_icon',
+					// Determines the order this control appears in for the specified section
+					'priority'    => 15,
+					// ID of the section this control should render in (can be one of yours, or a WordPress default section)
+					'section'     => 'fold-login-form-options',
+					'type'        => 'select',
+					'choices'     => array(
+						'no'  => esc_html__( 'No', 'fold' ),
+						'yes' => esc_html__( 'Yes', 'fold' ),
+					),
+				)
+			)
+		);
+
+		if ( class_exists( 'WooCommerce' ) ) {
+			$wp_customize->add_setting(
+				// No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
+				'display_cart_icon',
+				array(
+					// Default setting/value to save
+					'default'           => 'yes',
+					// Is this an 'option' or a 'theme_mod'?
+					'type'              => 'theme_mod',
+					// Optional. Special permissions for accessing this setting.
+					'capability'        => 'edit_theme_options',
+					// What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
+					// 'transport'      => 'postMessage',
+					'sanitize_callback' => '\Fold\Customizer::sanitize_text',
+				)
+			);
+
+			/*
+			Supports basic input types `text`, `checkbox`, `textarea`, `radio`, `select` and `dropdown-pages`.
+			Additional input types such as `email`, `url`, `number`, `hidden` and `date` are supported implicitly.
+			*/
+			$wp_customize->add_control(
+				new \WP_Customize_Control(
+					// Pass the $wp_customize object (required)
+					$wp_customize,
+					// Set a unique ID for the control
+					'display_cart_icon',
+					array(
+						// Admin visible name of the control
+						'label'       => esc_html__( 'Display cart icon', 'fold' ),
+						'description' => esc_html__( 'Display WooCommerce Cart icon on top menu bar', 'fold' ),
+						// Which setting to load and manipulate (serialized is okay)
+						'setting'     => 'display_cart_icon',
+						// Determines the order this control appears in for the specified section
+						'priority'    => 16,
+						// ID of the section this control should render in (can be one of yours, or a WordPress default section)
+						'section'     => 'fold-login-form-options',
+						'type'        => 'select',
+						'choices'     => array(
+							'no'  => esc_html__( 'No', 'fold' ),
+							'yes' => esc_html__( 'Yes', 'fold' ),
+						),
+					)
+				)
+			);
+		}//end if
 
 		$wp_customize->add_setting(
 			// No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
@@ -614,12 +740,12 @@ final class Customizer {
 		$setting_text_color = $wp_customize->get_setting( 'header_textcolor' );
 		if ( null !== $setting_text_color ) {
 			$setting_text_color->transport = 'postMessage';
-			$setting_text_color->default   = 'fff';
+			$setting_text_color->default   = 'ffffff';
 		}
 		$setting_back_color = $wp_customize->get_setting( 'background_color' );
 		if ( null !== $setting_back_color ) {
 			$setting_back_color->transport = 'postMessage';
-			$setting_back_color->default   = 'inherit';
+			$setting_back_color->default   = 'ffffff';
 		}
 	}
 

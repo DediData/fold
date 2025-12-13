@@ -8,7 +8,7 @@
 declare(strict_types=1);
 
 get_header(); ?>
-<main id="main" class="container mt-3">
+<div class="container pb-1">
 <?php
 // @phan-suppress-next-line PhanPluginRedundantAssignmentInGlobalScope
 $extra_class = '';
@@ -21,8 +21,9 @@ if ( is_active_sidebar( 'sidebar-1' ) ) {
 ?>
 		<div id="primary" class="col-12<?php echo esc_attr( $extra_class ); ?>">
 			<?php
-			dynamic_sidebar( 'content-top' );
-			the_archive_description( '<div class="text-justify">', '</div>' );
+			get_template_part( 'template-parts/sidebars/content-top' );
+			the_archive_title( '<h1 class="page-title text-center py-2">', '</h1>' );
+			the_archive_description( '<div id="archive-description" class="text-justify px-2">', '</div>' );
 
 			if ( have_posts() ) {
 				?>
@@ -53,16 +54,16 @@ if ( is_active_sidebar( 'sidebar-1' ) ) {
 				);
 			}//end if
 			?>
-			<?php dynamic_sidebar( 'content-bottom' ); ?>
+			<?php get_template_part( 'template-parts/sidebars/content-bottom' ); ?>
 		</div>
 <?php
 if ( is_active_sidebar( 'sidebar-1' ) ) {
-	get_sidebar();
+	get_template_part( 'template-parts/sidebars/sidebar' );
 	?>
 	</div>
 	<?php
 }
 ?>
-</main>
+</div>
 <?php
 get_footer();

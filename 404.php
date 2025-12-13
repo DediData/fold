@@ -7,11 +7,11 @@
 
 declare(strict_types=1);
 
-get_header();
-$sidebar_condition = is_active_sidebar( 'sidebar-1' ); ?>
-<main id="main" class="container mt-3">
+get_header(); ?>
+<div class="container pb-1">
 <?php
-$extra_class = '';
+$sidebar_condition = is_active_sidebar( 'sidebar-1' );
+$extra_class       = '';
 if ( $sidebar_condition ) {
 	$extra_class = ' col-md-8 col-lg-9 order-1 order-md-2 p-2';
 	?>
@@ -25,20 +25,20 @@ if ( $sidebar_condition ) {
 				<?php get_search_form(); ?>
 			</section>
 			<?php
-			dynamic_sidebar( 'frontend-content-top' );
-			dynamic_sidebar( 'content-top' );
-			dynamic_sidebar( 'frontend-content-bottom' );
-			dynamic_sidebar( 'content-bottom' );
+			get_template_part( 'template-parts/sidebars/content-top-frontend' );
+			get_template_part( 'template-parts/sidebars/content-top' );
+			get_template_part( 'template-parts/sidebars/content-bottom-frontend' );
+			get_template_part( 'template-parts/sidebars/content-bottom' );
 			?>
 		</div>
 		<?php
 		if ( $sidebar_condition ) {
-			get_sidebar();
+			get_template_part( 'template-parts/sidebars/sidebar' );
 			?>
 	</div>
 			<?php
 		}
 		?>
-</main>
+</div>
 <?php
 get_footer();

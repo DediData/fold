@@ -45,10 +45,6 @@ Bootstrap, Copyright (c) 2011-2025 Twitter, Inc.
 MIT License
 https://getbootstrap.com/
 
-Bootswatch, Copyright (c) 2025 Thomas Park
-MIT License
-https://github.com/thomaspark/bootswatch
-
 LightBox2
 MIT License
 https://github.com/lokesh/lightbox2/blob/dev/LICENSE

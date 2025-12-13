@@ -30,23 +30,24 @@ final class Fold extends \DediData\Singleton {
 		add_filter( 'comment_form_default_fields', array( $this, 'bootstrap_comment_form_fields' ) );
 		/** @psalm-suppress MixedArgumentTypeCoercion */
 		add_filter( 'comment_form_defaults', array( $this, 'bootstrap_comment_form' ) );
-		/** @psalm-suppress MixedArgumentTypeCoercion */
 		add_filter( 'widget_nav_menu_args', array( $this, 'add_div_nav_widget' ) );
 		add_filter( 'body_class', array( $this, 'body_classes' ) );
 		/** @psalm-suppress MixedArgumentTypeCoercion */
-		add_filter( 'wp_get_attachment_image_attributes', array( $this, 'image_item_add_title' ), 10, 1 );
+		add_filter( 'wp_get_attachment_image_attributes', array( $this, 'custom_image_attributes' ), 10, 1 );
 		add_filter( 'excerpt_length', array( $this, 'custom_excerpt_length' ), 999 );
 		add_filter( 'comment_reply_link', array( $this, 'comment_reply_link' ), 10, 1 );
 		add_filter( 'edit_comment_link', array( $this, 'edit_comment_link' ), 10, 1 );
 		// To support JC Submenu plugin
 		/** @psalm-suppress HookNotFound */
 		add_filter( 'jcs/enable_public_walker', array( $this, 'jc_disable_public_walker' ) );
+		add_filter( 'get_the_archive_title_prefix', '__return_empty_string' );
 		// Check if WooCommerce is active
 		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins' ) );
 		if ( is_array( $active_plugins ) && in_array( 'woocommerce/woocommerce.php', $active_plugins, true ) ) {
 			// Order product collections by stock status, in stock products first.
 			/** @psalm-suppress MixedArgumentTypeCoercion */
 			add_filter( 'posts_clauses', array( $this, 'order_by_stock_status' ), 2000 );
+			add_filter( 'woocommerce_add_to_cart_fragments', array( $this, 'refresh_cart_count_corner' ) );
 		}
 	}
 
@@ -274,10 +275,11 @@ final class Fold extends \DediData\Singleton {
 		// This theme uses wp_nav_menu() in two locations.
 		register_nav_menus(
 			array(
-				'primary'      => esc_html__( 'Top Menu', 'fold' ),
-				'header'       => esc_html__( 'Bottom of Header', 'fold' ),
-				'header-right' => esc_html__( 'Bottom of Header - Right', 'fold' ),
-				'bottom'       => esc_html__( 'Bottom of Site', 'fold' ),
+				'primary'       => esc_html__( 'Top Menu', 'fold' ),
+				'top-menu-side' => esc_html__( 'Top Menu - Side', 'fold' ),
+				'header'        => esc_html__( 'Bottom of Header', 'fold' ),
+				'header-right'  => esc_html__( 'Bottom of Header - Side', 'fold' ),
+				'bottom'        => esc_html__( 'Bottom of Site', 'fold' ),
 			)
 		);
 
@@ -295,6 +297,9 @@ final class Fold extends \DediData\Singleton {
 		} elseif ( ! is_rtl() ) {
 			add_editor_style( 'assets/css/editor-style.css' );
 		}
+
+		add_theme_support( 'rank-math-breadcrumbs' );
+		add_theme_support( 'yoast-breadcrumbs' );
 	}
 
 	/**
@@ -320,7 +325,7 @@ final class Fold extends \DediData\Singleton {
 				'name'          => esc_html__( 'Frontend Content Top', 'fold' ),
 				'id'            => 'frontend-content-top',
 				'description'   => esc_html__( 'Add widgets here to appear in your top of content in Frontpage.', 'fold' ),
-				'before_widget' => '<div id="%1$s" class="widget %2$s shadow rounded mb-3">',
+				'before_widget' => '<div id="%1$s" class="widget %2$s">',
 				'after_widget'  => '</div>',
 				'before_title'  => '<h4 class="widget-title">',
 				'after_title'   => '</h4>',
@@ -331,7 +336,7 @@ final class Fold extends \DediData\Singleton {
 				'name'          => esc_html__( 'Frontend Content Bottom', 'fold' ),
 				'id'            => 'frontend-content-bottom',
 				'description'   => esc_html__( 'Add widgets here to appear in your bottom of content in Frontpage.', 'fold' ),
-				'before_widget' => '<div id="%1$s" class="widget %2$s shadow rounded mb-3">',
+				'before_widget' => '<div id="%1$s" class="widget %2$s">',
 				'after_widget'  => '</div>',
 				'before_title'  => '<h3 class="widget-title">',
 				'after_title'   => '</h3>',
@@ -342,7 +347,7 @@ final class Fold extends \DediData\Singleton {
 				'name'          => esc_html__( 'Content Top', 'fold' ),
 				'id'            => 'content-top',
 				'description'   => esc_html__( 'Add widgets here to appear in your top of content.', 'fold' ),
-				'before_widget' => '<div id="%1$s" class="widget %2$s shadow rounded mb-3">',
+				'before_widget' => '<div id="%1$s" class="widget %2$s">',
 				'after_widget'  => '</div>',
 				'before_title'  => '<h4 class="widget-title">',
 				'after_title'   => '</h4>',
@@ -353,10 +358,32 @@ final class Fold extends \DediData\Singleton {
 				'name'          => esc_html__( 'Content Bottom', 'fold' ),
 				'id'            => 'content-bottom',
 				'description'   => esc_html__( 'Add widgets here to appear in your bottom of content.', 'fold' ),
-				'before_widget' => '<div id="%1$s" class="widget %2$s shadow rounded mb-3">',
+				'before_widget' => '<div id="%1$s" class="widget %2$s">',
 				'after_widget'  => '</div>',
 				'before_title'  => '<h4 class="widget-title">',
 				'after_title'   => '</h4>',
+			)
+		);
+		register_sidebar(
+			array(
+				'name'          => esc_html__( 'Footer - Top', 'fold' ),
+				'id'            => 'footer-top',
+				'description'   => esc_html__( 'Add widgets here to appear in your footer top.', 'fold' ),
+				'before_widget' => '<div id="%1$s" class="widget %2$s">',
+				'after_widget'  => '</div>',
+				'before_title'  => '<h3 class="widget-title">',
+				'after_title'   => '</h3>',
+			)
+		);
+		register_sidebar(
+			array(
+				'name'          => esc_html__( 'Footer - Bottom', 'fold' ),
+				'id'            => 'footer-bottom',
+				'description'   => esc_html__( 'Add widgets here to appear in your footer bottom.', 'fold' ),
+				'before_widget' => '<div id="%1$s" class="widget %2$s">',
+				'after_widget'  => '</div>',
+				'before_title'  => '<h3 class="widget-title">',
+				'after_title'   => '</h3>',
 			)
 		);
 		register_sidebar(
@@ -439,53 +466,10 @@ final class Fold extends \DediData\Singleton {
 			)
 		);
 
-		// bootstrap theme css
-		$mod_bs_theme_name = get_theme_mod( 'bootstrap_theme_name', 'default' );
-		$mod_bs_theme_name = is_string( $mod_bs_theme_name ) ? $mod_bs_theme_name : '';
-		$theme_names       = array(
-			'cerulean',
-			'cosmo',
-			'cyborg',
-			'darkly',
-			'flatly',
-			'journal',
-			'litera',
-			'lumen',
-			'lux',
-			'materia',
-			'minty',
-			'morph',
-			'pulse',
-			'quartz',
-			'sandstone',
-			'simplex',
-			'sketchy',
-			'slate',
-			'solar',
-			'spacelab',
-			'superhero',
-			'united',
-			'vapor',
-			'yeti',
-			'zephyr',
-		);
-		if ( '' === $mod_bs_theme_name || ! in_array( $mod_bs_theme_name, $theme_names, true ) ) {
-			$mod_bs_theme_name = 'default';
-		}
-		$theme_mode = 'default' !== $mod_bs_theme_name;
-		if ( $theme_mode ) {
-			if ( ! is_rtl() ) {
-				wp_enqueue_style( 'bootswatch', get_stylesheet_directory_uri() . '/assets/bootswatch/' . esc_html( $mod_bs_theme_name ) . '/bootstrap.min.css', array(), $theme_version, 'all' );
-			} elseif ( is_rtl() ) {
-				wp_enqueue_style( 'bootswatch-rtl', get_stylesheet_directory_uri() . '/assets/bootswatch/' . esc_html( $mod_bs_theme_name ) . '/bootstrap.rtl.min.css', array(), $theme_version, 'all' );
-			}
-		}
-		if ( ! $theme_mode ) {
-			if ( ! is_rtl() ) {
-				wp_enqueue_style( 'bootstrap', get_stylesheet_directory_uri() . '/assets/bootstrap/css/bootstrap.min.css', array(), $theme_version, 'all' );
-			} elseif ( is_rtl() ) {
-				wp_enqueue_style( 'bootstrap-rtl', get_stylesheet_directory_uri() . '/assets/bootstrap/css/bootstrap.rtl.min.css', array(), $theme_version, 'all' );
-			}
+		if ( ! is_rtl() ) {
+			wp_enqueue_style( 'bootstrap', get_stylesheet_directory_uri() . '/assets/bootstrap/css/bootstrap.min.css', array(), $theme_version, 'all' );
+		} elseif ( is_rtl() ) {
+			wp_enqueue_style( 'bootstrap-rtl', get_stylesheet_directory_uri() . '/assets/bootstrap/css/bootstrap.rtl.min.css', array(), $theme_version, 'all' );
 		}
 
 		// LightBox2
@@ -503,7 +487,9 @@ final class Fold extends \DediData\Singleton {
 		);
 
 		// Font Awesome CSS
-		wp_enqueue_style( 'font-awesome', get_stylesheet_directory_uri() . '/assets/font-awesome/css/all.min.css', array(), $theme_version, 'all' );
+		if ( ! is_plugin_active( 'font-awesome/index.php' ) ) {
+			wp_enqueue_style( 'font-awesome', get_stylesheet_directory_uri() . '/assets/font-awesome/css/all.min.css', array(), $theme_version, 'all' );
+		}
 
 		// main css
 		if ( ! is_rtl() ) {
@@ -895,9 +881,20 @@ final class Fold extends \DediData\Singleton {
 		if ( is_customize_preview() ) {
 			$classes[] = 'fold-customizer';
 		}
-		$mod_bs_theme_name = get_theme_mod( 'bootstrap_theme_name', 'default' );
-		$mod_bs_theme_name = is_string( $mod_bs_theme_name ) ? $mod_bs_theme_name : '';
-		$classes[]         = esc_html( $mod_bs_theme_name ) . '-theme';
+
+		$mod_bs_theme = get_theme_mod( 'bootstrap_theme', 'light' );
+		if ( ! in_array( $mod_bs_theme, array( 'light', 'dark', 'light-only', 'dark-only' ), true ) ) {
+			$mod_bs_theme = 'light';
+		}
+		$mod_bs_theme            .= '-theme';
+		$classes[]                = esc_html( $mod_bs_theme );
+		FOLD()->primary_bg_mode   = 'bg-light';
+		FOLD()->secondary_bg_mode = 'bg-dark';
+		if ( 'dark-theme' === $mod_bs_theme || 'dark-only-theme' === $mod_bs_theme ) {
+			$classes[]                = 'is-dark-theme';
+			FOLD()->primary_bg_mode   = 'bg-dark';
+			FOLD()->secondary_bg_mode = 'bg-light';
+		}
 
 		if ( ! ( has_nav_menu( 'primary' ) || get_theme_mod( 'display_login_link', false ) ) ) {
 			$classes[] = 'non-top-menu';
@@ -912,7 +909,7 @@ final class Fold extends \DediData\Singleton {
 	 * @param array<mixed> $attr Gallery image tag attributes.
 	 * @return array<mixed> filtered gallery image tag attributes.
 	 */
-	public function image_item_add_title( array $attr ): array {
+	public function custom_image_attributes( array $attr ): array {
 		if ( isset( $attr['alt'] ) && '' !== $attr['alt'] ) {
 			$attr['title'] = $attr['alt'];
 		}
@@ -962,24 +959,42 @@ final class Fold extends \DediData\Singleton {
 	}
 
 	/**
+	 * Used to update the cart count displayed on a webpage using WooCommerce.
+	 *
+	 * @param array $fragments Contains HTML fragments that will be used to update specific parts of the page via AJAX. In
+	 *                         this function, the HTML fragment being updated is the cart count displayed as a badge in the corner of the page.
+	 * @return array Containing the updated cart count HTML fragment with the class `.cart-count` as the key and the HTML content representing the cart count badge as the value.
+	 */
+	public function refresh_cart_count_corner( $fragments ) {
+		ob_start(); ?>
+		<span class="position-absolute translate-middle badge rounded-pill bg-danger cart-count">
+			<?php echo esc_html( WC()->cart->get_cart_contents_count() ); ?>
+		</span>
+		<?php
+		$fragments['.cart-count'] = ob_get_clean();
+		return $fragments;
+	}
+
+	/**
 	 * Generates custom background styles and header text colors.
 	 *
 	 * @return mixed a custom background style.
 	 */
 	public function change_custom_background_cb() {
 		$background     = get_background_image();
-		$color          = get_background_color();
+		$color          = '#' . get_background_color();
 		$head_txt_color = get_header_textcolor();
 		if ( 'blank' === $head_txt_color ) {
 			$head_txt_color = 'ffffff';
 		}
-		/** @psalm-suppress DocblockTypeContradiction */
-		if ( '' === $background && ! isset( $color ) ) {
-			return;
-		}
+		$light_primary_hex = get_theme_mod( 'light_primary_color', '#0d6efd' );
+		list( $light_primary_r, $light_primary_g, $light_primary_b ) = sscanf( $light_primary_hex, '#%02x%02x%02x' );
+		$dark_primary_hex = get_theme_mod( 'dark_primary_color', '#3090ff' );
+		list( $dark_primary_r, $dark_primary_g, $dark_primary_b ) = sscanf( $dark_primary_hex, '#%02x%02x%02x' );
 
 		/** @psalm-suppress RedundantConditionGivenDocblockType, DocblockTypeContradiction */
-		$style = isset( $color ) ? "background-color: #$color !important;" : '';
+		// $style = isset( $color ) ? "background-color: #$color !important;" : '';
+		$style = '';
 
 		if ( isset( $background ) ) {
 			$image = "background-image: url($background) !important;";
@@ -1012,6 +1027,88 @@ final class Fold extends \DediData\Singleton {
 		}//end if
 		?>
 		<style type="text/css" id="custom-background-css">
+			/*
+			--bs-secondary-rgb: 108, 117, 125;
+			--bs-heading-color
+			--bs-body-color
+			--bs-light
+			--bs-dark
+			--bs-dark-rgb
+			--bs-light-rgb
+			--bs-dropdown-bg
+			*/
+			:root {
+				--fold-light-primary-hex: <?php echo esc_html( trim( $light_primary_hex ) ); ?>;
+				--fold-light-primary-rgb: <?php echo esc_html( $light_primary_r ); ?>, <?php echo esc_html( $light_primary_g ); ?>, <?php echo esc_html( $light_primary_b ); ?>;
+				--fold-dark-primary-hex: <?php echo esc_html( trim( $dark_primary_hex ) ); ?>;
+				--fold-dark-primary-rgb: <?php echo esc_html( $dark_primary_r ); ?>, <?php echo esc_html( $dark_primary_g ); ?>, <?php echo esc_html( $dark_primary_b ); ?>;
+			}
+			:root, [data-bs-theme=light],[data-bs-theme=dark] {
+				<?php
+				if ( '#ffffff' !== $color ) {
+					// Body Background Color
+					?>
+				--bs-body-bg: <?php echo esc_html( $color ); ?> !important;
+					<?php
+				}
+				?>
+			}
+
+			[data-bs-theme=light] {
+				--bs-primary: var(--fold-light-primary-hex) !important;
+				--bs-link-color:var(--fold-light-primary-hex) !important;
+				--bs-link-hover-color: var(--fold-light-primary-hex) !important;
+				--bs-nav-link-hover-color: var(--fold-light-primary-hex) !important;
+				--bs-pagination-active-bg: var(--fold-light-primary-hex) !important;
+
+				--bs-primary-rgb: var(--fold-light-primary-rgb) !important;
+				--bs-link-color-rgb: var(--fold-light-primary-rgb) !important;
+				--bs-link-hover-color-rgb: var(--fold-light-primary-rgb) !important;
+			}
+			[data-bs-theme=dark] {
+				--bs-primary: var(--fold-dark-primary-hex) !important;
+				--bs-link-color: var(--fold-dark-primary-hex) !important;
+				--bs-link-hover-color: var(--fold-dark-primary-hex) !important;
+				--bs-nav-link-hover-color: var(--fold-dark-primary-hex) !important;
+				--bs-pagination-active-bg: var(--fold-dark-primary-hex) !important;
+
+				--bs-primary-rgb: var(--fold-dark-primary-rgb) !important;
+				--bs-link-color-rgb: var(--fold-dark-primary-rgb) !important;
+				--bs-link-hover-color-rgb: var(--fold-dark-primary-rgb) !important;
+			}
+			[data-bs-theme=light] .btn-outline-primary {
+				--bs-btn-border-color: var(--fold-light-primary-hex) !important;
+				--bs-btn-color: var(--fold-light-primary-hex) !important;
+				--bs-btn-hover-bg: var(--fold-light-primary-hex) !important;
+				--bs-btn-hover-border-color: var(--fold-light-primary-hex) !important;
+				--bs-btn-active-border-color: var(--fold-light-primary-hex) !important;
+				--bs-btn-disabled-color: var(--fold-light-primary-hex) !important;
+				--bs-btn-disabled-border-color: var(--fold-light-primary-hex) !important;
+			}
+			[data-bs-theme=dark] .btn-outline-primary {
+				--bs-btn-border-color: var(--fold-dark-primary-hex) !important;
+				--bs-btn-color: var(--fold-dark-primary-hex) !important;
+				--bs-btn-hover-bg: var(--fold-dark-primary-hex) !important;
+				--bs-btn-hover-border-color: var(--fold-dark-primary-hex) !important;
+				--bs-btn-active-border-color: var(--fold-dark-primary-hex) !important;
+				--bs-btn-disabled-color: var(--fold-dark-primary-hex) !important;
+				--bs-btn-disabled-border-color: var(--fold-dark-primary-hex) !important;
+			}
+			[data-bs-theme=light] .pagination {
+				--bs-pagination-active-border-color: var(--fold-light-primary-hex) !important;
+				--bs-pagination-active-bg: var(--fold-light-primary-hex) !important;
+			}
+			[data-bs-theme=dark] .pagination {
+				--bs-pagination-active-border-color: var(--fold-dark-primary-hex) !important;
+				--bs-pagination-active-bg: var(--fold-dark-primary-hex) !important;
+			}
+			[data-bs-theme=light] .form-control:focus {
+				border-color: var(--fold-light-primary-hex) !important;
+			}
+			[data-bs-theme=dark] .form-control:focus {
+				border-color: var(--fold-dark-primary-hex) !important;
+			}
+
 			body.custom-background {
 				<?php echo esc_html( trim( $style ) ); ?>
 				-webkit-background-size: cover !important;
@@ -1024,27 +1121,23 @@ final class Fold extends \DediData\Singleton {
 			#HeaderCarousel .carousel-caption h4 a,
 			#HeaderCarousel .carousel-caption h5,
 			#HeaderCarousel .carousel-caption p,
-			#top-menu ul.navbar-nav>li>a,
-			#top-menu #top-menu-side>li>a,
 			#top-menu.in-top ul.navbar-nav>li>a,
-			#top-menu.in-top #top-menu-side>li>a,
-			#top-menu .navbar-brand,
-			#top-menu .navbar-toggler {
+			#top-menu.in-top #second-header-bar>li>a,
+			#top-menu.in-top .navbar-brand,
+			#top-menu.in-top .navbar-toggler,
+			#top-menu.in-top #second-header-bar > a {
 				color: #<?php echo esc_html( $head_txt_color ); ?>;
+			}
+			#top-menu.in-top .navbar-nav > li::after,
+			#top-menu.in-top .navbar-nav > a::after {
+				border-color: #<?php echo esc_html( $head_txt_color ); ?>;
 			}
 			#top-menu ul.navbar-nav>.current-menu-item>a::before,
 			#top-menu ul.navbar-nav>.current-menu-ancestor>a::before,
-			#bottom-menu ul.navbar-nav>.current-menu-ancestor>a::before {
-				background-color: #<?php echo esc_html( $head_txt_color ); ?>;
-			}
-			@media (max-width: 767px) {
-				#top-menu .navbar-collapse.show li a {
-					color: #<?php echo esc_html( $head_txt_color ); ?>;
-				}
-			}
+			#bottom-menu ul.navbar-nav>.current-menu-ancestor>a::before,
 			#top-menu.in-top .icon-bar,
 			#top-menu .icon-bar,
-			#top-menu .navbar-toggler {
+			.light-theme #top-menu .navbar-toggler {
 				background-color: #<?php echo esc_html( $head_txt_color ); ?>;
 			}
 		</style>
@@ -1251,7 +1344,7 @@ final class Fold extends \DediData\Singleton {
 		edit_post_link(
 			sprintf(
 				/* translators: %s: Name of current post */
-				'<i class="fas fa-pencil-square-o fa-lg" title="%s" aria-hidden="true"></i>',
+				'<i class="fas fa-pencil fa-lg" title="%s" aria-hidden="true"></i>',
 				esc_attr( __( 'Edit ', 'fold' ) . get_the_title() )
 			),
 			'<span class="edit-link">',
@@ -1333,5 +1426,6 @@ final class Fold extends \DediData\Singleton {
 		</span>
 		<?php
 	}
+
 }
 

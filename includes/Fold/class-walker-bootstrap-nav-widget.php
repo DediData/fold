@@ -257,7 +257,7 @@ final class Walker_Bootstrap_Nav_Widget extends \Walker_Nav_Menu {
 				$item_output .= '<a' . $attributes . '>';
 			}//end if
 
-			$description_span = (string) $data_object->description && 0 < $depth ? '<span class="menu-item-description">' . (string) $data_object->description . '</span>' : '';
+			$description_span = (string) $data_object->description && 0 < $depth ? '<span class="menu-item-description"><small>' . (string) $data_object->description . '</small></span>' : '';
 			$arrow_icon       = '';
 			if ( 1 === $depth && $args->has_children ) {
 				$arrow_icon = ' <i class="fas fa-2xs fa-angle-double-down" aria-hidden="true"></i>';

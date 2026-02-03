@@ -8,8 +8,6 @@
  * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  */
 
-declare(strict_types=1);
-
 ?>
 	</main>
 </div>
@@ -39,7 +37,6 @@ declare(strict_types=1);
 					<?php
 					// Translators: %1$s is current year and %2$s is site name
 					$format_string = esc_html__( 'Copyright &copy; %1$s %2$s. All rights reserved.', 'fold' );
-					// @phan-suppress-next-line PhanPluginPrintfVariableFormatString
 					printf(
 						esc_html( $format_string ),
 						esc_html( gmdate( 'Y' ) ),

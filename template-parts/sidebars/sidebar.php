@@ -8,8 +8,6 @@
  * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  */
 
-declare(strict_types=1);
-
 ?>
 <aside id="secondary" style="height: fit-content;" class="col-md-4 col-lg-3 order-2 order-md-1 p-2 shadow rounded">
 	<?php dynamic_sidebar( 'sidebar-1' ); ?>

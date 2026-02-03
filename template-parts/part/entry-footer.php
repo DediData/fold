@@ -5,8 +5,6 @@
  * @package Fold
  */
 
-declare(strict_types=1);
-
 ?>
 <footer class="entry-footer">
 	<?php
@@ -23,8 +21,7 @@ declare(strict_types=1);
 		<?php
 	}
 	if ( is_single() || is_archive() ) {
-		$author_meta_id = get_the_author_meta( 'ID' );
-		$author_meta_id = is_numeric( $author_meta_id ) ? intval( $author_meta_id ) : 0;
+		$author_meta_id = intval( get_the_author_meta( 'ID' ) );
 		// Get Categories for posts.
 		$categories_list = get_the_category_list( esc_html__( ', ', 'fold' ) );
 		?>
@@ -44,7 +41,7 @@ declare(strict_types=1);
 		</div>
 		<?php
 	}//end if
-	if ( function_exists( 'wp_statistics_pages' ) && get_theme_mod( 'display_visits', true ) && ! is_front_page() ) {
+	if ( function_exists( 'wp_statistics_pages' ) && (bool) get_theme_mod( 'display_visits', true ) && ! is_front_page() ) {
 		?>
 		<div class="footer-item total-hits">
 			<i class="fas fa-bar-chart fa-lg" title="<?php esc_attr_e( 'Total Hits', 'fold' ); ?>" aria-hidden="true"></i>

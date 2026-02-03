@@ -5,8 +5,6 @@
  * @package Fold
  */
 
-declare(strict_types=1);
-
 if ( 'no' === get_theme_mod( 'display_featured_in_header', 'no' ) ) {
 	if ( has_post_thumbnail() ) { ?>
 		<div class="featured-image text-center">

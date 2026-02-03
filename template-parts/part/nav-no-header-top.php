@@ -5,8 +5,6 @@
  * @package Fold
  */
 
-declare(strict_types=1);
-
 $theme_mod_display_login_link  = get_theme_mod( 'display_login_link', false );
 $theme_mod_display_search_icon = get_theme_mod( 'display_search_icon', 'yes' );
 $theme_mod_display_cart_icon   = get_theme_mod( 'display_cart_icon', 'yes' );
@@ -71,7 +69,7 @@ if ( has_nav_menu( 'primary' ) || has_nav_menu( 'second-top-bar' ) || true === $
 						<a id="cart-item" class="menu-item float-end px-3 py-2 cart-icon-link position-relative" href="<?php echo esc_url( $cart_url ); ?>" title="<?php esc_attr_e( 'View Cart', 'fold' ); ?>" role="button">
 							<i class="fas fa-lg fa-shopping-cart"></i>
 							<span class="position-absolute translate-middle badge rounded-pill bg-danger cart-count">
-								<?php echo esc_html( $cart_count ); ?>
+								<?php echo esc_html( strval( $cart_count ) ); ?>
 							</span>
 						</a>
 						<?php

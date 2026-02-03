@@ -6,8 +6,6 @@
  * @link https://codex.wordpress.org/Template_Hierarchy
  */
 
-declare(strict_types=1);
-
 ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'shadow rounded mb-3 p-3' ); ?>>
 	<?php get_template_part( 'template-parts/part/entry-header' ); ?>
@@ -25,6 +23,6 @@ declare(strict_types=1);
 </article>
 <?php
 // If comments are open or we have at least one comment, load up the comment template.
-if ( comments_open() || get_comments_number() > 0 ) {
+if ( comments_open() || intval( get_comments_number() ) > 0 ) {
 	comments_template();
 }

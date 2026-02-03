@@ -777,8 +777,6 @@ jQuery( document ).ready(
 			$( '.woocommerce-store-notice.demo_store' ).css( 'position', 'unset' ).css( 'z-index', '1000' );
 		}
 
-		$( "#widgetModal" ).modal( "show" );
-
 		let currentTop;
 		if (body.hasClass( 'admin-bar' )) {
 			if ( $( '#no-header-top-menu' ).length ) {
@@ -981,7 +979,8 @@ jQuery( document ).ready(
 						// Find matching effect
 						for (const rule of EFFECT_RULES) {
 							if (el.is( rule.selector )) {
-								el.addClass( 'effect-' + rule.effect ); // Only add effect class
+								// Only add effect class
+								el.addClass( 'effect-' + rule.effect );
 								elements.push( el );
 								break;
 							}
@@ -991,8 +990,8 @@ jQuery( document ).ready(
 			}
 		);
 		function checkVisible() {
-			const scrollTop    = $( window ).scrollTop();
-			const windowBottom = scrollTop + $( window ).height();
+			const scrollTop      = $( window ).scrollTop();
+			const windowBottom   = scrollTop + $( window ).height();
 			elements.forEach(
 				el => {
 					const top    = el.offset().top;
@@ -1070,5 +1069,32 @@ jQuery( document ).ready(
 				);
 			}
 		);
+
+		// START DISPLAY POPUP
+		(function () {
+			// Storage key
+			const storageKey = 'fold_popup_seen';
+			const $modal     = $( '#widgetModal' );
+			if ( ! $modal.length ) {
+				return;
+			}
+			const forcePopup = $modal.data( 'force-popup' ) === 1;
+			// Do not block popup if forced
+			if ( ! forcePopup && localStorage.getItem( storageKey ) === '1' ) {
+				return;
+			}
+			// Show modal (Bootstrap)
+			$modal.modal( 'show' );
+			// Save state only if not forced
+			if ( ! forcePopup ) {
+				$modal.one(
+					'hidden.bs.modal',
+					function () {
+						localStorage.setItem( storageKey, '1' );
+					}
+				);
+			}
+		})();
+		// END DISPLAY POPUP
 	}
 );

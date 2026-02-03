@@ -5,8 +5,6 @@
  * @package     Customizer_Library
  */
 
-declare(strict_types=1);
-
 namespace Fold;
 
 /**

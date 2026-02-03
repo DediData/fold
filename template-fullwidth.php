@@ -7,8 +7,6 @@
  * @package Fold
  */
 
-declare(strict_types=1);
-
 get_header(); ?>
 <div id="primary" class="col-12">
 	<?php

@@ -5,8 +5,6 @@
  * @package Fold
  */
 
-declare(strict_types=1);
-
 namespace Fold;
 
 /**
@@ -47,7 +45,6 @@ final class Walker_Bootstrap_Comment extends \Walker_Comment {
 						<i class="fas fa-clock-o" aria-hidden="true"></i>
 						<a href="<?php echo esc_url( get_comment_link( $comment, $args ) ); ?>">
 							<?php
-							// phpcs:ignore SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable.DisallowedSuperGlobalVariable
 							$wpp_settings   = $GLOBALS['wpp_settings'] ?? array();
 							$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins' ) );
 							$time_string    = get_comment_time( 'c' );

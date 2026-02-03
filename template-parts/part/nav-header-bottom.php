@@ -5,8 +5,6 @@
  * @package Fold
  */
 
-declare(strict_types=1);
-
 if ( has_nav_menu( 'header' ) || has_nav_menu( 'header-right' ) || is_customize_preview() ) {
 	$menu_mode = get_theme_mod( 'menu_mode', 'mega-menu' );
 	if ( false === in_array( $menu_mode, array( 'mega-menu', 'normal-menu' ), true ) ) {

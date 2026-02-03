@@ -1461,6 +1461,10 @@ body > header a {
 	display: block;
 }
 
+:root :where(.wp-block-image.is-style-rounded img,.wp-block-image .is-style-rounded img) {
+	border-radius: 30px;
+}
+
 /* Font Awesome */
 .fa,
 a .fa,
@@ -1599,10 +1603,12 @@ span a .fa {
 	transition: background 0.7s ease, transform 0.7s ease;
 }
 
-.flip-back h3, .flip-back p {
+.flip-back h3,
+.flip-back p {
 	opacity: 0;
-	transform: translatey(10px);
-	transition: opacity 0.5s ease, transform 0.5s ease;
+	transform: translatey(18px);
+	filter: blur(6px);
+	transition: opacity .5s ease-out, transform .5s ease-out, filter .5s ease-out;
 }
 
 .flip-wrapper:hover .flip-back h3,
@@ -1613,14 +1619,6 @@ span a .fa {
 
 .flip-back h3 {
 	margin: 0 0 12px;
-}
-
-.flip-back h3,
-.flip-back p {
-	opacity: 0;
-	transform: translatey(18px);
-	filter: blur(6px);
-	transition: opacity .5s ease-out, transform .5s ease-out, filter .5s ease-out;
 }
 
 .flip-back p {

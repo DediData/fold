@@ -9,8 +9,6 @@
  * @link https://codex.wordpress.org/Template_Hierarchy
  */
 
-declare(strict_types=1);
-
 /*
  * If the current post is protected by a password and
  * the visitor has not yet entered the password we will

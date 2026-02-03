@@ -5,8 +5,6 @@
  * @package Fold
  */
 
-declare(strict_types=1);
-
 if ( is_singular() ) {
 	wp_link_pages(
 		array(

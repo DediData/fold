@@ -5,8 +5,6 @@
  * @package Fold
  */
 
-declare(strict_types=1);
-
 $attachments      = get_uploaded_header_images();
 $header_image     = get_custom_header();
 $header_image_url = is_string( $header_image->url ) ? $header_image->url : '';
@@ -54,8 +52,8 @@ if ( ( is_home() || is_front_page() ) && count( $attachments ) > 1 ) {
 				$width      = '100%';
 				$height     = 'auto';
 				if ( is_array( $image_data ) ) {
-					$width  = $image_data[1];
-					$height = $image_data[2];
+					$width  = strval( $image_data[1] );
+					$height = strval( $image_data[2] );
 				}
 				?>
 				<div class="carousel-item<?php echo 1 === $counter ? ' active' : ''; ?>" role="group" aria-roledescription="slide" aria-label="<?php /* translators: %s: Slide Number */ printf( esc_html__( 'Slide %s', 'fold' ), esc_attr( strval( $counter ) ) ); ?>">
@@ -63,7 +61,7 @@ if ( ( is_home() || is_front_page() ) && count( $attachments ) > 1 ) {
 				if ( is_array( $attachment ) ) {
 					?>
 					<div class="rounded-bottom-3 overlay"></div>
-					<img <?php echo 1 === $counter ? 'fetchpriority="high"' : 'loading="lazy"'; ?> class="rounded-bottom-3 w-100 slide-<?php echo esc_attr( strval( $counter ) ); ?>" src="<?php echo esc_url( $img_src ); ?>" srcset="<?php echo esc_attr( $img_srcset ); ?>" sizes="<?php echo esc_attr( $sizes ); ?>" width="<?php echo esc_attr( (string) $width ); ?>" height="<?php echo esc_attr( (string) $height ); ?>" title="<?php echo esc_attr( $attachment['title'] ); ?>" alt="<?php echo esc_attr( $attachment['title'] ); ?>" />
+					<img <?php echo 1 === $counter ? 'fetchpriority="high"' : 'loading="lazy"'; ?> class="rounded-bottom-3 w-100 slide-<?php echo esc_attr( strval( $counter ) ); ?>" src="<?php echo esc_url( $img_src ); ?>" srcset="<?php echo esc_attr( $img_srcset ); ?>" sizes="<?php echo esc_attr( $sizes ); ?>" width="<?php echo esc_attr( $width ); ?>" height="<?php echo esc_attr( $height ); ?>" title="<?php echo esc_attr( $attachment['title'] ); ?>" alt="<?php echo esc_attr( $attachment['title'] ); ?>" />
 					<?php
 				}
 				if ( display_header_text() ) {
@@ -147,6 +145,7 @@ if ( ( is_home() || is_front_page() ) && count( $attachments ) > 1 ) {
 	<?php
 } elseif ( is_category() ) {
 	$category_image_id = get_term_meta( get_queried_object_id(), 'category-image', true );
+	$category_image_id = is_numeric( $category_image_id ) ? intval( $category_image_id ) : 0;
 	?>
 	<div id="HeaderCarousel" class="carousel rounded-bottom-3 slide shadow carousel-fade" data-bs-ride="carousel" data-bs-interval="8000">
 		<div class="carousel-inner rounded-bottom-3">
@@ -155,7 +154,6 @@ if ( ( is_home() || is_front_page() ) && count( $attachments ) > 1 ) {
 				<?php
 				if (
 					'yes' === get_theme_mod( 'display_featured_in_header', 'no' ) &&
-					'' !== $category_image_id &&
 					( ! function_exists( 'is_woocommerce' ) || ! is_woocommerce() )
 				) {
 					// wp_get_attachment_image($image_id, 'full', false, array('class' => 'category-header'));
@@ -163,6 +161,7 @@ if ( ( is_home() || is_front_page() ) && count( $attachments ) > 1 ) {
 					$img_src    = is_string( $img_src ) ? $img_src : '';
 					$img_srcset = wp_get_attachment_image_srcset( $category_image_id, 'full' );
 					$img_srcset = is_string( $img_srcset ) ? $img_srcset : '';
+					$sizes      = '';
 					if ( '' !== $img_srcset ) {
 						$sizes = wp_get_attachment_image_sizes( $category_image_id, 'full' );
 					}
@@ -171,11 +170,11 @@ if ( ( is_home() || is_front_page() ) && count( $attachments ) > 1 ) {
 					$width      = '100%';
 					$height     = 'auto';
 					if ( is_array( $image_data ) ) {
-						$width  = $image_data[1];
-						$height = $image_data[2];
+						$width  = strval( $image_data[1] );
+						$height = strval( $image_data[2] );
 					}
 					?>
-					<img decoding="async" fetchpriority="high" class="rounded-bottom-3 w-100 slide-1" src="<?php echo esc_url( $img_src ); ?>" srcset="<?php echo esc_attr( $img_srcset ); ?>" sizes="<?php echo esc_attr( $sizes ); ?>" width="<?php echo esc_attr( (string) $width ); ?>" height="<?php echo esc_attr( (string) $height ); ?>" title="<?php the_title_attribute(); ?>" alt="<?php the_title_attribute(); ?>" />
+					<img decoding="async" fetchpriority="high" class="rounded-bottom-3 w-100 slide-1" src="<?php echo esc_url( $img_src ); ?>" srcset="<?php echo esc_attr( $img_srcset ); ?>" sizes="<?php echo esc_attr( $sizes ); ?>" width="<?php echo esc_attr( $width ); ?>" height="<?php echo esc_attr( $height ); ?>" title="<?php the_title_attribute(); ?>" alt="<?php the_title_attribute(); ?>" />
 					<?php
 				} else {
 					$theme_mod_default_header_background = get_theme_mod( 'default_header_background', get_stylesheet_directory_uri() . '/assets/images/header-bg.webp' );
@@ -195,11 +194,11 @@ if ( ( is_home() || is_front_page() ) && count( $attachments ) > 1 ) {
 						$width      = '100%';
 						$height     = 'auto';
 						if ( is_array( $image_data ) ) {
-							$width  = $image_data[1];
-							$height = $image_data[2];
+							$width  = strval( $image_data[1] );
+							$height = strval( $image_data[2] );
 						}
 						?>
-						<img decoding="async" fetchpriority="high" class="rounded-bottom-3 w-100 slide-1" src="<?php echo esc_url( $img_src ); ?>" srcset="<?php echo esc_attr( $img_srcset ); ?>" sizes="<?php echo esc_attr( $sizes ); ?>" width="<?php echo esc_attr( (string) $width ); ?>" height="<?php echo esc_attr( (string) $height ); ?>" title="<?php the_title_attribute(); ?>" alt="<?php the_title_attribute(); ?>" />
+						<img decoding="async" fetchpriority="high" class="rounded-bottom-3 w-100 slide-1" src="<?php echo esc_url( $img_src ); ?>" srcset="<?php echo esc_attr( $img_srcset ); ?>" sizes="<?php echo esc_attr( $sizes ); ?>" width="<?php echo esc_attr( $width ); ?>" height="<?php echo esc_attr( $height ); ?>" title="<?php the_title_attribute(); ?>" alt="<?php the_title_attribute(); ?>" />
 						<?php
 					} else {
 						$theme_mod_default_header_300 = get_stylesheet_directory_uri() . '/assets/images/header-bg-300.webp';
@@ -260,6 +259,7 @@ if ( ( is_home() || is_front_page() ) && count( $attachments ) > 1 ) {
 						$img_src    = is_string( $img_src ) ? $img_src : '';
 						$img_srcset = wp_get_attachment_image_srcset( $attachment_id, 'full' );
 						$img_srcset = is_string( $img_srcset ) ? $img_srcset : '';
+						$sizes      = '';
 						if ( '' !== $img_srcset ) {
 							$sizes = wp_get_attachment_image_sizes( $attachment_id, 'full' );
 						}
@@ -268,11 +268,11 @@ if ( ( is_home() || is_front_page() ) && count( $attachments ) > 1 ) {
 						$width      = '100%';
 						$height     = 'auto';
 						if ( is_array( $image_data ) ) {
-							$width  = $image_data[1];
-							$height = $image_data[2];
+							$width  = strval( $image_data[1] );
+							$height = strval( $image_data[2] );
 						}
 						?>
-						<img decoding="async" fetchpriority="high" class="rounded-bottom-3 w-100 slide-1" src="<?php echo esc_url( $img_src ); ?>" srcset="<?php echo esc_attr( $img_srcset ); ?>" sizes="<?php echo esc_attr( $sizes ); ?>" width="<?php echo esc_attr( (string) $width ); ?>" height="<?php echo esc_attr( (string) $height ); ?>" title="<?php the_title_attribute(); ?>" alt="<?php the_title_attribute(); ?>" />
+						<img decoding="async" fetchpriority="high" class="rounded-bottom-3 w-100 slide-1" src="<?php echo esc_url( $img_src ); ?>" srcset="<?php echo esc_attr( $img_srcset ); ?>" sizes="<?php echo esc_attr( $sizes ); ?>" width="<?php echo esc_attr( $width ); ?>" height="<?php echo esc_attr( $height ); ?>" title="<?php the_title_attribute(); ?>" alt="<?php the_title_attribute(); ?>" />
 						<?php
 					} else {
 						$theme_mod_default_header_300 = get_stylesheet_directory_uri() . '/assets/images/header-bg-300.webp';

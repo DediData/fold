@@ -6,8 +6,6 @@
  * @link https://codex.wordpress.org/Template_Hierarchy
  */
 
-declare(strict_types=1);
-
 $post_class = '';
 if ( ! str_contains( get_page_template(), 'template-fullwidth.php' ) ) {
 	$post_class = 'shadow rounded mb-3 p-3';
@@ -36,6 +34,6 @@ if ( ! str_contains( get_page_template(), 'template-fullwidth.php' ) ) {
 </article>
 <?php
 // If comments are open or we have at least one comment, load up the comment template.
-if ( comments_open() || get_comments_number() > 0 ) {
+if ( comments_open() || intval( get_comments_number() ) > 0 ) {
 	comments_template();
 }

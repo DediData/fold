@@ -5,8 +5,6 @@
  * @package Fold
  */
 
-declare(strict_types=1);
-
 $theme_mod_display_login_link = get_theme_mod( 'display_login_link', false );
 if ( isset( $theme_mod_display_login_link ) ) {
 	$login_link_texts            = FOLD()::login_link_texts();

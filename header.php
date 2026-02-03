@@ -8,9 +8,8 @@
  * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  */
 
-declare(strict_types=1);
-
 $mod_bs_theme = get_theme_mod( 'bootstrap_theme', 'light' );
+$extra_prop   = '';
 if ( 'light-only' === $mod_bs_theme || 'light' === $mod_bs_theme ) {
 	$extra_prop = 'light';
 } elseif ( 'dark-only' === $mod_bs_theme || 'dark' === $mod_bs_theme ) {
@@ -39,15 +38,11 @@ if ( 'light-only' === $mod_bs_theme || 'light' === $mod_bs_theme ) {
 		if (
 			! is_home() &&
 			! is_front_page() &&
+			( is_404() || is_archive() || 'template-no-header.php' === get_page_template_slug() ||
 			(
-				is_404() ||
-				is_archive() ||
-				'template-no-header.php' === get_page_template_slug() ||
-				(
-					function_exists( 'is_woocommerce' ) &&
-					( is_woocommerce() || is_shop() || is_cart() || is_checkout() || is_account_page() || is_product() || is_product_category() || is_product_tag() )
-				)
-			)
+			function_exists( 'is_woocommerce' ) &&
+			( is_woocommerce() || is_shop() || is_cart() || is_checkout() || is_account_page() || is_product() || is_product_category() || is_product_tag() )
+			) )
 		) {
 			get_template_part( 'template-parts/part/nav-no-header-top' );
 		} else {

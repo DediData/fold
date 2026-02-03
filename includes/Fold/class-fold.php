@@ -5,8 +5,6 @@
  * @package Fold
  */
 
-declare(strict_types=1);
-
 namespace Fold;
 
 /**
@@ -49,6 +47,7 @@ final class Fold extends \DediData\Singleton {
 			add_filter( 'posts_clauses', array( $this, 'order_by_stock_status' ), 2000 );
 			add_filter( 'woocommerce_add_to_cart_fragments', array( $this, 'refresh_cart_count_corner' ) );
 		}
+		new \Fold\PWA();
 	}
 
 	/**
@@ -526,7 +525,6 @@ final class Fold extends \DediData\Singleton {
 	public function enqueue_fonts(): void {
 		$current_locale    = get_locale();
 		$current_locale_2l = substr( $current_locale, 1, 2 );
-		$locale_font       = '';
 		$theme_version     = wp_get_theme()->get( 'Version' );
 		/** @psalm-suppress RedundantConditionGivenDocblockType, DocblockTypeContradiction */
 		$theme_version = ! is_array( $theme_version ) ? $theme_version : '';
@@ -695,7 +693,9 @@ final class Fold extends \DediData\Singleton {
 			.search-field,
 			.popover,
 			.navbar,
-			.mejs-container * {
+			.mejs-container *,
+			.wp-editor-area,
+			.rtl .wp-editor-area {
 				font-family: ' . $locale_font . ', Tahoma, Arial, Helvetica, sans-serif !important;
 			}
 
@@ -737,7 +737,7 @@ final class Fold extends \DediData\Singleton {
 			$current_page_url .= wp_unslash( $server_http_host );
 			$current_page_url .= wp_unslash( $server_request_uri );
 			$url_query         = wp_parse_url( $current_page_url, \PHP_URL_QUERY );
-			if ( isset( $url_query ) ) {
+			if ( is_string( $url_query ) ) {
 				$current_page_url = str_replace( $url_query, '', $current_page_url );
 			}
 			$current_page_url = trim( $current_page_url, '?' );
@@ -968,7 +968,7 @@ final class Fold extends \DediData\Singleton {
 	public function refresh_cart_count_corner( $fragments ) {
 		ob_start(); ?>
 		<span class="position-absolute translate-middle badge rounded-pill bg-danger cart-count">
-			<?php echo esc_html( WC()->cart->get_cart_contents_count() ); ?>
+			<?php echo esc_html( (string) WC()->cart->get_cart_contents_count() ); ?>
 		</span>
 		<?php
 		$fragments['.cart-count'] = ob_get_clean();
@@ -978,7 +978,7 @@ final class Fold extends \DediData\Singleton {
 	/**
 	 * Generates custom background styles and header text colors.
 	 *
-	 * @return mixed a custom background style.
+	 * @return void
 	 */
 	public function change_custom_background_cb() {
 		$background     = get_background_image();
@@ -988,42 +988,33 @@ final class Fold extends \DediData\Singleton {
 			$head_txt_color = 'ffffff';
 		}
 		$light_primary_hex = get_theme_mod( 'light_primary_color', '#0d6efd' );
+		$light_primary_hex = is_string( $light_primary_hex ) ? $light_primary_hex : '';
 		list( $light_primary_r, $light_primary_g, $light_primary_b ) = sscanf( $light_primary_hex, '#%02x%02x%02x' );
 		$dark_primary_hex = get_theme_mod( 'dark_primary_color', '#3090ff' );
+		$dark_primary_hex = is_string( $dark_primary_hex ) ? $dark_primary_hex : '';
 		list( $dark_primary_r, $dark_primary_g, $dark_primary_b ) = sscanf( $dark_primary_hex, '#%02x%02x%02x' );
 
-		/** @psalm-suppress RedundantConditionGivenDocblockType, DocblockTypeContradiction */
 		// $style = isset( $color ) ? "background-color: #$color !important;" : '';
 		$style = '';
 
-		if ( isset( $background ) ) {
-			$image = "background-image: url($background) !important;";
-
+		if ( '' !== $background ) {
+			$image  = "background-image: url($background) !important;";
 			$repeat = get_theme_mod( 'background_repeat', 'repeat' );
-
 			if ( ! in_array( $repeat, array( 'no-repeat', 'repeat-x', 'repeat-y', 'repeat' ), true ) ) {
 				$repeat = 'repeat';
 			}
-
-			$repeat = "background-repeat: $repeat !important;";
-
+			$repeat   = "background-repeat: $repeat !important;";
 			$position = get_theme_mod( 'background_position_x', 'left' );
-
 			if ( ! in_array( $position, array( 'center', 'right', 'left' ), true ) ) {
 				$position = 'left';
 			}
-
-			$position = "background-position: top $position !important;";
-
+			$position   = "background-position: top $position !important;";
 			$attachment = get_theme_mod( 'background_attachment', 'scroll' );
-
 			if ( ! in_array( $attachment, array( 'fixed', 'scroll' ), true ) ) {
 				$attachment = 'scroll';
 			}
-
 			$attachment = "background-attachment: $attachment !important;";
-
-			$style .= $image . $repeat . $position . $attachment;
+			$style     .= $image . $repeat . $position . $attachment;
 		}//end if
 		?>
 		<style type="text/css" id="custom-background-css">
@@ -1039,9 +1030,9 @@ final class Fold extends \DediData\Singleton {
 			*/
 			:root {
 				--fold-light-primary-hex: <?php echo esc_html( trim( $light_primary_hex ) ); ?>;
-				--fold-light-primary-rgb: <?php echo esc_html( $light_primary_r ); ?>, <?php echo esc_html( $light_primary_g ); ?>, <?php echo esc_html( $light_primary_b ); ?>;
+				--fold-light-primary-rgb: <?php echo esc_html( strval( $light_primary_r ) ); ?>, <?php echo esc_html( strval( $light_primary_g ) ); ?>, <?php echo esc_html( strval( $light_primary_b ) ); ?>;
 				--fold-dark-primary-hex: <?php echo esc_html( trim( $dark_primary_hex ) ); ?>;
-				--fold-dark-primary-rgb: <?php echo esc_html( $dark_primary_r ); ?>, <?php echo esc_html( $dark_primary_g ); ?>, <?php echo esc_html( $dark_primary_b ); ?>;
+				--fold-dark-primary-rgb: <?php echo esc_html( strval( $dark_primary_r ) ); ?>, <?php echo esc_html( strval( $dark_primary_g ) ); ?>, <?php echo esc_html( strval( $dark_primary_b ) ); ?>;
 			}
 			:root, [data-bs-theme=light],[data-bs-theme=dark] {
 				<?php
@@ -1380,7 +1371,7 @@ final class Fold extends \DediData\Singleton {
 			isset( $wpp_settings['persian_date'] ) &&
 			'enable' === $wpp_settings['persian_date']
 		) {
-			$gregdate    = gregdate( \DATE_W3C, eng_number( $date_w3c ) );
+			$gregdate    = \gregdate( \DATE_W3C, \eng_number( $date_w3c ) );
 			$time_string = sprintf(
 				$time_string,
 				$gregdate,
@@ -1426,6 +1417,4 @@ final class Fold extends \DediData\Singleton {
 		</span>
 		<?php
 	}
-
 }
-

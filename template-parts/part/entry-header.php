@@ -5,8 +5,6 @@
  * @package Fold
  */
 
-declare(strict_types=1);
-
 ?>
 <header class="entry-header">
 	<div class="row">

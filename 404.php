@@ -5,8 +5,6 @@
  * @package Fold
  */
 
-declare(strict_types=1);
-
 get_header(); ?>
 <div class="container pb-1">
 <?php

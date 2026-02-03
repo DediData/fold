@@ -5,8 +5,6 @@
  * @package Bootstrap-Navwalker
  */
 
-declare(strict_types=1);
-
 namespace Fold;
 
 /**
@@ -18,13 +16,13 @@ final class Walker_Bootstrap_Nav extends \Walker_Nav_Menu {
 	 * Starts the list before the elements are added.
 	 *
 	 * @see Walker::start_lvl()
-	 * @param string    $output Passed by reference. Used to append additional content.
+	 * @param string    $output Used to append additional content (passed by reference).
 	 * @param integer   $depth  Depth of menu item. Used for padding.
 	 * @param \stdClass $args   An object of wp_nav_menu() arguments.
 	 * @return void
 	 * @SuppressWarnings(PHPMD.ElseExpression)
 	 */
-	public function start_lvl( &$output, $depth = 0, $args = array() ) {
+	public function start_lvl( &$output, $depth = 0, $args = null ) {
 		if ( 0 === $depth ) {
 			// main sub menus
 			$output .= '<ul role="menu" class="dropdown-menu shadow p-2">';
@@ -38,13 +36,13 @@ final class Walker_Bootstrap_Nav extends \Walker_Nav_Menu {
 	 * Ends the list of after the elements are added.
 	 *
 	 * @see Walker::end_lvl()
-	 * @param string    $output Passed by reference. Used to append additional content.
+	 * @param string    $output Used to append additional content (passed by reference).
 	 * @param integer   $depth  Depth of menu item. Used for padding.
 	 * @param \stdClass $args   An object of wp_nav_menu() arguments.
 	 * @return void
 	 * @SuppressWarnings(PHPMD.ElseExpression)
 	 */
-	public function end_lvl( &$output, $depth = 0, $args = array() ) {
+	public function end_lvl( &$output, $depth = 0, $args = null ) {
 		$output .= '</ul>';
 	}
 
@@ -61,12 +59,12 @@ final class Walker_Bootstrap_Nav extends \Walker_Nav_Menu {
 	 * @SuppressWarnings(PHPMD.ElseExpression)
 	 */
 	public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0 ) {
-		$classes   = is_array( $data_object->classes ) ? $data_object->classes : array();
+		$classes   = isset( $data_object->classes ) && is_array( $data_object->classes ) ? $data_object->classes : array();
 		$classes[] = 'menu-item-' . (string) $data_object->ID;
 		$classes[] = 'list-unstyled';
 		$classes[] = 'nav-item';
 		if ( 0 === $depth ) {
-			$classes[] .= ' px-2 py-2 text-center';
+			$classes[] = 'px-2 py-2 text-center';
 		}
 		if ( 1 === $depth ) {
 			$menu_mode = get_theme_mod( 'menu_mode', 'mega-menu' );
@@ -74,11 +72,11 @@ final class Walker_Bootstrap_Nav extends \Walker_Nav_Menu {
 				$menu_mode = 'mega-menu';
 			}
 			if ( 'mega-menu' === $menu_mode ) {
-				$classes[] .= ' px-1 py-1';
+				$classes[] = ' px-1 py-1';
 			}
 		}
 		if ( $depth > 1 ) {
-			$classes[] .= '';
+			$classes[] = '';
 		}
 		$classes[] = '';
 
@@ -135,6 +133,7 @@ final class Walker_Bootstrap_Nav extends \Walker_Nav_Menu {
 		 * @param int       $depth       Depth of menu item. Used for padding.
 		 */
 		$current_object_id = apply_filters( 'nav_menu_item_id', 'menu-item-' . (string) $data_object->ID, $data_object, $args, $depth );
+		$current_object_id = is_string( $current_object_id ) ? $current_object_id : '';
 		$current_object_id = $current_object_id ? ' id="' . esc_attr( $current_object_id ) . '"' : '';
 
 		/**
@@ -171,7 +170,7 @@ final class Walker_Bootstrap_Nav extends \Walker_Nav_Menu {
 				$atts['aria-expanded'] = 'false';
 				$atts['role']          = 'button';
 			} else {
-				$atts['href'] = (string) $data_object->url;
+				$atts['href']  = (string) $data_object->url;
 				$atts['class'] = '';
 				if ( 0 < $depth ) {
 					$atts['class'] .= ' submenu-link mb-1 p-2';
@@ -202,7 +201,7 @@ final class Walker_Bootstrap_Nav extends \Walker_Nav_Menu {
 
 			$attributes = '';
 			foreach ( $atts as $attr => $value ) {
-				if ( '' === $value ) {
+				if ( ! is_string( $value ) || '' === $value ) {
 					continue;
 				}
 				$value       = 'href' === $attr ? esc_url( $value ) : esc_attr( $value );
@@ -210,7 +209,7 @@ final class Walker_Bootstrap_Nav extends \Walker_Nav_Menu {
 			}
 
 			/** This filter is documented in wp-includes/post-template.php */
-			$title = apply_filters( 'the_title', (string) $data_object->title, (int) $data_object->ID );
+			$title = apply_filters( 'the_title', (string) $data_object->title, $data_object->ID );
 
 			/**
 			 * Filters a menu item's title.
@@ -240,8 +239,8 @@ final class Walker_Bootstrap_Nav extends \Walker_Nav_Menu {
 				}
 				// $pos = strpos( esc_attr( $data_object->attr_title ), 'glyphicon' );
 				if ( false !== array_search( 'glyphicons', $data_object->classes, true ) ) {
+					$found_glyphicons = '';
 					foreach ( $data_object->classes as $value ) {
-						// phpcs:ignore SlevomatCodingStandard.ControlStructures.EarlyExit.EarlyExitNotUsed
 						if ( 0 === strpos( $value, 'glyphicons-' ) ) {
 							$found_glyphicons = $value;
 						}
@@ -250,7 +249,6 @@ final class Walker_Bootstrap_Nav extends \Walker_Nav_Menu {
 				} elseif ( false !== array_search( 'fa', $data_object->classes, true ) || true === $obj_class_fa_found ) {
 					$found_fa = '';
 					foreach ( $data_object->classes as $value ) {
-						// phpcs:ignore SlevomatCodingStandard.ControlStructures.EarlyExit.EarlyExitNotUsed
 						if ( 0 === strpos( (string) $value, 'fa-' ) ) {
 							$found_fa .= ' ' . $value;
 						}

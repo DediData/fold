@@ -5,8 +5,6 @@
  * @package Fold
  */
 
-declare(strict_types=1);
-
 esc_html__( 'Add widgets here to appear in automatic popup window when your site loads in first view.', 'fold' );
 esc_html__( 'Allows you to customize site settings.', 'fold' );
 esc_html__( 'Always redirect to SSL?', 'fold' );

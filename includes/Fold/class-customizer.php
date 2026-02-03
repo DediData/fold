@@ -6,8 +6,6 @@
  * @link http://codex.wordpress.org/Theme_Customization_API
  */
 
-declare(strict_types=1);
-
 namespace Fold;
 
 /**
@@ -63,7 +61,7 @@ final class Customizer {
 				array(
 					'label'    => esc_html__( 'Primary Theme Color for Light Mode', 'fold' ),
 					'section'  => 'colors',
-					'settings' => 'light_primary_color',
+					'settings' => array( 'light_primary_color' ),
 					'priority' => 10,
 				)
 			)
@@ -92,7 +90,7 @@ final class Customizer {
 				array(
 					'label'    => esc_html__( 'Primary Theme Color for Dark Mode', 'fold' ),
 					'section'  => 'colors',
-					'settings' => 'dark_primary_color',
+					'settings' => array( 'dark_primary_color' ),
 					'priority' => 10,
 				)
 			)
@@ -210,7 +208,7 @@ final class Customizer {
 				'display_visits',
 				array(
 					// Default setting/value to save
-					'default'           => true,
+					'default'           => 'true',
 					// Is this an 'option' or a 'theme_mod'?
 					'type'              => 'theme_mod',
 					// Optional. Special permissions for accessing this setting.
@@ -219,7 +217,7 @@ final class Customizer {
 					'theme_supports'    => array(),
 					// What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
 					'transport'         => 'refresh',
-					'validate_callback' => '',
+					// 'validate_callback' => '',
 					'sanitize_callback' => '\Fold\Customizer::sanitize_checkbox',
 					'dirty'             => false,
 				)
@@ -293,7 +291,7 @@ final class Customizer {
 				// Theme features required to support the panel. Default is none.
 				'theme_supports'    => array(),
 				// Default value for the setting. Default is empty string.
-				'default'           => false,
+				'default'           => 'false',
 				// What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
 				'transport'         => 'refresh',
 				'sanitize_callback' => '\Fold\Customizer::sanitize_checkbox',
@@ -353,7 +351,7 @@ final class Customizer {
 				'default'           => 'Login',
 				// What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
 				'transport'         => 'refresh',
-				'validate_callback' => '',
+				// 'validate_callback' => '',
 				'sanitize_callback' => '\Fold\Customizer::sanitize_login_link_texts',
 				'dirty'             => false,
 			)
@@ -405,7 +403,7 @@ final class Customizer {
 				'default'           => 'WordPress',
 				// What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
 				'transport'         => 'refresh',
-				'validate_callback' => '',
+				// 'validate_callback' => '',
 				'sanitize_callback' => '\Fold\Customizer::sanitize_login_form_systems',
 				'dirty'             => false,
 			)
@@ -419,25 +417,25 @@ final class Customizer {
 				'login_form_system',
 				array(
 					// Which setting to load and manipulate (serialized is okay)
-					'setting'         => 'login_form_system',
+					'setting'        => 'login_form_system',
 					// Optional. Special permissions for accessing this setting.
-					'capability'      => 'edit_theme_options',
+					'capability'     => 'edit_theme_options',
 					// Determines the order this control appears in for the specified section , Default: 10
-					'priority'        => 13,
+					'priority'       => 13,
 					// ID of the section this control should render in (can be one of yours, or a WordPress default section)
-					'section'         => 'fold-login-form-options',
+					'section'        => 'fold-login-form-options',
 					// Admin-visible name of the control
-					'label'           => esc_html__( 'Login form system', 'fold' ),
-					'description'     => esc_html__( 'Please select the login form system', 'fold' ),
+					'label'          => esc_html__( 'Login form system', 'fold' ),
+					'description'    => esc_html__( 'Please select the login form system', 'fold' ),
 					// Not used for 'checkbox', 'radio', 'select', 'textarea', or 'dropdown-pages' control types. Default empty array.
 					// (bool) Show UI for adding new content, currently only used for the dropdown-pages control. Default false.
-					'allow_addition'  => false,
-					'active_callback' => '',
+					'allow_addition' => false,
+					// 'active_callback' => '',
 					// Control type. Core controls include 'text', 'checkbox', 'textarea', 'radio', 'select', and 'dropdown-pages'.
-					'type'            => 'select',
+					'type'           => 'select',
 					// Additional input types such as 'email', 'url', 'number', 'hidden', and 'date' are supported implicitly. Default 'text'.
 					// List of choices for 'radio' or 'select' type controls
-					'choices'         => self::$login_form_systems,
+					'choices'        => self::$login_form_systems,
 				)
 			)
 		);
@@ -456,7 +454,7 @@ final class Customizer {
 				'default'           => 'https://panel.dedidata.com',
 				// What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
 				'transport'         => 'refresh',
-				'validate_callback' => '',
+				// 'validate_callback' => '',
 				'sanitize_callback' => '\Fold\Customizer::sanitize_text',
 				'dirty'             => false,
 			)
@@ -470,24 +468,24 @@ final class Customizer {
 				'whmcs_url',
 				array(
 					// Which setting to load and manipulate (serialized is okay)
-					'setting'         => 'whmcs_url',
+					'setting'        => 'whmcs_url',
 					// Optional. Special permissions for accessing this setting.
-					'capability'      => 'edit_theme_options',
+					'capability'     => 'edit_theme_options',
 					// Determines the order this control appears in for the specified section , Default: 10
-					'priority'        => 14,
+					'priority'       => 14,
 					// ID of the section this control should render in (can be one of yours, or a WordPress default section)
-					'section'         => 'fold-login-form-options',
+					'section'        => 'fold-login-form-options',
 					// Admin-visible name of the control
-					'label'           => esc_html__( 'WHMCS URL', 'fold' ),
-					'description'     => esc_html__( 'If you selected WHMCS, Please provide the url of your WHMCS', 'fold' ),
+					'label'          => esc_html__( 'WHMCS URL', 'fold' ),
+					'description'    => esc_html__( 'If you selected WHMCS, Please provide the url of your WHMCS', 'fold' ),
 					// List of custom input attributes for control output, where attribute names are the keys and values are the values.
-					'input_attrs'     => array( 'style' => 'direction:ltr;' ),
+					'input_attrs'    => array( 'style' => 'direction:ltr;' ),
 					// Not used for 'checkbox', 'radio', 'select', 'textarea', or 'dropdown-pages' control types. Default empty array.
 					// (bool) Show UI for adding new content, currently only used for the dropdown-pages control. Default false.
-					'allow_addition'  => false,
-					'active_callback' => '',
+					'allow_addition' => false,
+					// 'active_callback' => '',
 					// Control type. Core controls include 'text', 'checkbox', 'textarea', 'radio', 'select', and 'dropdown-pages'.
-					'type'            => 'text',
+					'type'           => 'text',
 					// Additional input types such as 'email', 'url', 'number', 'hidden', and 'date' are supported implicitly. Default 'text'.
 					// List of choices for 'radio' or 'select' type controls
 					// 'choices'      =>  $login_form_systems,
@@ -601,7 +599,7 @@ final class Customizer {
 				'default'           => '',
 				// What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
 				'transport'         => 'refresh',
-				'validate_callback' => '',
+				// 'validate_callback' => '',
 				'sanitize_callback' => '\Fold\Customizer::sanitize_text',
 				'dirty'             => false,
 			)
@@ -729,6 +727,80 @@ final class Customizer {
 			)
 		);
 
+		$wp_customize->add_section(
+			'fold-site-settings',
+			array(
+				// Visible title of section
+				'title'       => esc_html__( 'Site Settings', 'fold' ),
+				// Determines what order this appears in
+				'priority'    => 21,
+				// Capability needed to tweak
+				'capability'  => 'edit_theme_options',
+				// Descriptive tooltip
+				'description' => esc_html__( 'Allows you to customize site settings.', 'fold' ),
+			)
+		);
+
+		$wp_customize->add_setting(
+			// No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
+			'enable_pwa',
+			array(
+				// Is this an 'option' or a 'theme_mod'?
+				'type'              => 'theme_mod',
+				// Optional. Special permissions for accessing this setting.
+				'capability'        => 'edit_theme_options',
+				// Theme features required to support the panel. Default is none.
+				'theme_supports'    => array(),
+				// Default value for the setting. Default is empty string.
+				'default'           => 'true',
+				// What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
+				'transport'         => 'postMessage',
+				// 'validate_callback' => '',
+				'sanitize_callback' => '\Fold\Customizer::sanitize_checkbox',
+				'dirty'             => false,
+			)
+		);
+
+		$wp_customize->add_control(
+			new \WP_Customize_Control(
+				// Pass the $wp_customize object (required)
+				$wp_customize,
+				// Set a unique ID for the control
+				'enable_pwa',
+				array(
+					// Which setting to load and manipulate (serialized is okay)
+					'setting'        => 'enable_pwa',
+					// Optional. Special permissions for accessing this setting.
+					'capability'     => 'edit_theme_options',
+					// Determines the order this control appears in for the specified section , Default: 10
+					'priority'       => 11,
+					// ID of the section this control should render in (can be one of yours, or a WordPress default section)
+					'section'        => 'fold-site-settings',
+					// Admin-visible name of the control
+					'label'          => esc_html__( 'Enable PWA (Install APP)', 'fold' ),
+					'description'    => esc_html__( 'Enable PWA (Progressive Web Application) Installation (Requires Site Logo!)', 'fold' ),
+					// List of custom input attributes for control output, where attribute names are the keys and values are the values.
+					'input_attrs'    => array(),
+					// Not used for 'checkbox', 'radio', 'select', 'textarea', or 'dropdown-pages' control types. Default empty array.
+					// (bool) Show UI for adding new content, currently only used for the dropdown-pages control. Default false.
+					'allow_addition' => false,
+					// 'active_callback' => '',
+					// Control type. Core controls include 'text', 'checkbox', 'textarea', 'radio', 'select', and 'dropdown-pages'.
+					'type'           => 'checkbox',
+					// Additional input types such as 'email', 'url', 'number', 'hidden', and 'date' are supported implicitly. Default 'text'.
+
+					/*
+					'choices'         => array(
+						// List of choices for 'radio' or 'select' type controls
+						'yes'	=> esc_html__( 'Yes', 'fold' ),
+						'no'	=> esc_html__( 'No', 'fold' ),
+					),
+					*/
+				)
+			)
+		);
+
+
 		$setting_blog_name = $wp_customize->get_setting( 'blogname' );
 		if ( null !== $setting_blog_name ) {
 			$setting_blog_name->transport = 'postMessage';
@@ -824,7 +896,7 @@ final class Customizer {
 		// Return an array with file extension and mime_type.
 		$file = wp_check_filetype( $image, $mimes );
 		// If $image has a valid mime_type, return it; otherwise, return the default.
-		return isset( $file['ext'] ) ? $image : $setting->default;
+		return false !== $file['ext'] ? $image : $setting->default;
 	}
 
 	/**
@@ -840,9 +912,6 @@ final class Customizer {
 	 */
 	public static function live_preview(): void {
 		$theme_version = wp_get_theme()->get( 'Version' );
-		/** @psalm-suppress RedundantConditionGivenDocblockType, DocblockTypeContradiction */
-		$theme_version = ! is_array( $theme_version ) ? $theme_version : '';
-
 		wp_enqueue_script(
 			// Give the script a unique ID
 			'fold-theme-customizer',

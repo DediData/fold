@@ -5,8 +5,6 @@
  * @package DediData
  */
 
-declare(strict_types=1);
-
 namespace DediData;
 
 use Exception;

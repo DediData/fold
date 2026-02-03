@@ -5,12 +5,9 @@
  * @package Fold
  */
 
-declare(strict_types=1);
-
 get_header(); ?>
 <div class="container pb-1">
 <?php
-// @phan-suppress-next-line PhanPluginRedundantAssignmentInGlobalScope
 $extra_class = '';
 if ( is_active_sidebar( 'sidebar-1' ) ) {
 	$extra_class = ' col-md-8 col-lg-9 order-1 order-md-2 p-2';
@@ -38,7 +35,9 @@ if ( is_active_sidebar( 'sidebar-1' ) ) {
 						* If you want to override this in a child theme, then include a file
 						* called content-___.php (where ___ is the Post Format name) and that will be used instead.
 						*/
-						get_template_part( 'template-parts/post/content', (string) get_post_format() );
+						$get_post_format = get_post_format();
+						$get_post_format = is_string( $get_post_format ) ? $get_post_format : null;
+						get_template_part( 'template-parts/post/content', $get_post_format );
 					}
 					?>
 				</div>

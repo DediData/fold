@@ -5,8 +5,6 @@
  * @package Fold
  */
 
-declare(strict_types=1);
-
 if ( has_nav_menu( 'bottom' ) || is_customize_preview() ) { ?>
 	<nav id="bottom-menu" class="navbar navbar-expand-md shadow container rounded transition bg-gradient">
 		<div class="container-fluid">

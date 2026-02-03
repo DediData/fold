@@ -5,8 +5,6 @@
  * @package Fold
  */
 
-declare(strict_types=1);
-
 if ( is_active_sidebar( 'footer-top' ) ) {
 	?>
 	<section id="footer-top-sidebar" class="row justify-content-center mb-3">

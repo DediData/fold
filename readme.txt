@@ -4,12 +4,11 @@ Requires at least: WordPress 5.2.0
 Tested up to: WordPress 6.8.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Tags: one-column, two-columns, flexible-header, custom-colors, custom-header, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, post-formats, rtl-language-support, sticky-post, theme-options, threaded-comments
+Tags: blog, e-commerce, news, grid-layout, one-column, two-columns, three-columns, four-columns, left-sidebar, accessibility-ready, custom-background, flexible-header, custom-colors, custom-header, custom-menu, custom-logo, editor-style, featured-image-header, featured-images, full-width-template, footer-widgets, post-formats, rtl-language-support, sticky-post, style-variations, translation-ready, theme-options, threaded-comments
 
 == Description ==
 
-Fold brings your site to life with immersive featured images. Personalize its asymmetrical grid with a custom color scheme and showcase your multimedia content with post formats.
-WordPress Fold is an Advanced Responsive Theme, Multi Colors, Lightweight, Extendable and you can create any type of websites using Fold including Business sites, WooCommerce powered site (eshop). Fold supports RTL (Right To Left) Direction which means it supports all languages and also RTL languages like Persian, Arabic & Hebrew. Fold is not just a theme, but it is a framework for creating any WordPress themes. Features: Built-in Top Slider & Mega Menu, Multi Colors, Popup Login form, Bootstrap Ready, Mobile & Tablet Friendly, FontAwesome, 4 Columns Bottom Widgets, Auto Side Column, Content Top|Bottom [Home Page] Widgets Area, Add Logo, Favorite Icon, Full Customizable Background, HTML 5 & SEO Friendly, Custom CSS, ...
+Fold is a lightning-fast, highly customizable WordPress theme for any website, such as a Business, Blog, Portfolio, eShop, WooCommerce store, News site, or one-page website. It features clean, optimized code, SEO-friendly structure, responsive design for mobile and tablets, and is PWA-ready, allowing users to install the site as an app on desktop or mobile. Enjoy built-in sliders and mega menus, day/night mode, custom colors, RTL support, popup login and search, and full customization for logos, backgrounds, colors, and automatic language-based fonts. Fold makes building your dream website effortless and stylish.
 
 For more information about Fold please go to https://dedidata.com/fold.
 

@@ -914,42 +914,11 @@ body > header a {
 	text-underline-offset: 8px;
 	text-decoration-style: dotted;
 	text-decoration-thickness: 1px;
-	position: relative;
-	display: inline-block;
 	transition: all 1s ease-in-out;
 }
 
 .entry-content a:hover {
-	text-decoration: none;
-}
-
-.entry-content a::after {
-	content: "";
-	height: 1px;
-	top: 105%;
-	left: 0;
-	width: 100%;
-	opacity: 0;
-	pointer-events: none;
-	position: absolute;
-	transform: translatey(2px);
-	transition: all .15s cubic-bezier(.39, .575, .565, 1);
-	transition-property: opacity, transform;
-	background-color: currentcolor;
-}
-
-.entry-content a:hover::after {
-	opacity: 1;
-	transform: translatey(-3px) translatez(0);
-	transition-delay: .2s;
-	transition-duration: .15s;
-}
-
-.entry-content a.wp-block-button__link::after,
-.entry-content a.btn::after,
-.entry-content a.wc-block-grid__product-link::after,
-.entry-content a:has(img, svg):after {
-	display: none;
+	text-decoration-style: dashed;
 }
 
 .entry-content .wp-block-button a,

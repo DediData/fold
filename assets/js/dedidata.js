@@ -957,7 +957,7 @@ jQuery( document ).ready(
 			{ selector: 'a:not(:has(img)), li', effect: 'fade' },
 			{ selector: 'h1, h2, h3, h4, h5, h6, .wp-block-buttons, button, .feature-item', effect: 'zoom' },
 			{ selector: 'farhad', effect: 'pop' },
-			{ selector: 'article, section, p, blockquote', effect: 'slide-up' },
+			{ selector: 'section, p, blockquote', effect: 'slide-up' },
 		];
 		// Finding elements
 		const elements = [];

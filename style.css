@@ -11,7 +11,7 @@ License: GNU General Public License v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: fold
 Tags: blog, e-commerce, news, grid-layout, one-column, two-columns, three-columns, four-columns, left-sidebar, accessibility-ready, custom-background, flexible-header, custom-colors, custom-header, custom-menu, custom-logo, editor-style, featured-image-header, featured-images, full-width-template, footer-widgets, post-formats, rtl-language-support, sticky-post, style-variations, translation-ready, theme-options, threaded-comments
-Version: 5.7.8
+Version: 5.7.9
 */
 
 /*
@@ -916,42 +916,11 @@ body > header a {
 	text-underline-offset: 8px;
 	text-decoration-style: dotted;
 	text-decoration-thickness: 1px;
-	position: relative;
-	display: inline-block;
 	transition: all 1s ease-in-out;
 }
 
 .entry-content a:hover {
-	text-decoration: none;
-}
-
-.entry-content a::after {
-	content: "";
-	height: 1px;
-	top: 105%;
-	right: 0;
-	width: 100%;
-	opacity: 0;
-	pointer-events: none;
-	position: absolute;
-	transform: translatey(2px);
-	transition: all .15s cubic-bezier(.39, .575, .565, 1);
-	transition-property: opacity, transform;
-	background-color: currentcolor;
-}
-
-.entry-content a:hover::after {
-	opacity: 1;
-	transform: translatey(-3px) translatez(0);
-	transition-delay: .2s;
-	transition-duration: .15s;
-}
-
-.entry-content a.wp-block-button__link::after,
-.entry-content a.btn::after,
-.entry-content a.wc-block-grid__product-link::after,
-.entry-content a:has(img, svg):after {
-	display: none;
+	text-decoration-style: dashed;
 }
 
 .entry-content .wp-block-button a,
